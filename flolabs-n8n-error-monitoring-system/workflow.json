@@ -1,0 +1,78 @@
+{
+  "name": "n8n Error Monitoring System",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "content": "=🚨 Workflow failed: {{ $('Error Trigger').item.json.workflow.name }}\nNode: {{ $('Error Trigger').item.json.execution.lastNodeExecuted }}\nError: {{ $('Error Trigger').item.json.execution.error.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "name": "Send Failure Alert"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "title": "={{ $json.workflow.name }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Node Name|rich_text",
+              "textContent": "={{ $json.execution.lastNodeExecuted || 'Unknown' }}"
+            },
+            {
+              "key": "Error Message|rich_text",
+              "textContent": "={{ $json.execution.error.message }}"
+            },
+            {
+              "key": "Datetime stamp|date",
+              "date": "={{ $now }}"
+            },
+            {
+              "key": "Status|select",
+              "selectValue": "=New"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "name": "Create Error Log"
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create Error Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Error Log": {
+      "main": [
+        [
+          {
+            "node": "Send Failure Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
