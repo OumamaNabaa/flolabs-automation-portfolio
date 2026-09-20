@@ -1,0 +1,1337 @@
+{
+  "name": "Zoom Orientation Attendance to Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REDACTED_GOOGLE_SHEET_URL",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Applicant": "={{ $json.Applicant }}",
+            "Comments": "={{ $json.Comments }}",
+            "Status": "={{ $json.Status }}",
+            "Call follow up": "={{ $json[\"Call follow up\"] }}",
+            "FU": "={{ $json.FU }}",
+            "Follow up status": "={{ $json[\"Follow up status\"] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Applicant",
+              "displayName": "Applicant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Comments",
+              "displayName": "Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Call follow up",
+              "displayName": "Call follow up",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "FU",
+              "displayName": "FU",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Follow up status",
+              "displayName": "Follow up status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last heard of",
+              "displayName": "Last heard of",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -304,
+        880
+      ],
+      "id": "4d37c241-e25d-4d56-b35c-5ea51acc35e8",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REDACTED_CREDENTIAL_ID",
+          "name": "Google Sheets Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all().map(i => i.json);\n\nif (!items.length) {\n  return [];\n}\n\nconst sectionDate = items[0].sectionDate;\n\nconst rows = [\n  // سطر فاضي بالبداية\n  {\n    json: {\n      Applicant: '',\n      Comments: '',\n      Status: '',\n      'Call follow up': '',\n      FU: '',\n      'Follow up status': '',\n      row_type: 'blank_row'\n    }\n  },\n\n  // سطر التاريخ\n  {\n    json: {\n      Applicant: sectionDate,\n      Comments: '',\n      Status: '',\n      'Call follow up': '',\n      FU: '',\n      'Follow up status': '',\n      row_type: 'date_header'\n    }\n  }\n];\n\nfor (const item of items) {\n  rows.push({\n    json: {\n      Applicant: item.name || '',\n      Comments: item.comments || '',\n      Status: item.status || '',\n      'Call follow up': item.call_follow_up || '',\n      FU: '',\n      'Follow up status': '',\n      row_type: 'applicant'\n    }\n  });\n}\n\nreturn rows;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -528,
+        880
+      ],
+      "id": "0bc0e4b5-a430-45f5-98c5-bfe639d6f30b",
+      "name": "Build Rows For Applicants Sheet"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nfunction formatOrdinal(day) {\n  if (day >= 11 && day <= 13) return `${day}th`;\n  const last = day % 10;\n  if (last === 1) return `${day}st`;\n  if (last === 2) return `${day}nd`;\n  if (last === 3) return `${day}rd`;\n  return `${day}th`;\n}\n\nconst meetingDate = new Date($node[\"Prepare Meeting Data\"].json.body.payload.object.start_time);\n\nconst month = meetingDate.toLocaleString('en-US', {\n  month: 'long',\n  timeZone: 'UTC'\n});\nconst day = formatOrdinal(meetingDate.getUTCDate());\nconst year = meetingDate.getUTCFullYear();\n\nconst sectionDate = `${month} ${day}, ${year}`;\n\nreturn items.map(item => ({\n  json: {\n    ...item.json,\n    sectionDate\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -752,
+        880
+      ],
+      "id": "d8bf2104-fc85-4ed7-a9b3-23c2c328e05b",
+      "name": "Format Meeting Date For Sheet"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all().map(i => i.json);\n\nif (!items.length) return [];\n\nconst JOHN_EMAIL = 'john@example.com';\nconst OLIVER_EMAIL = 'oliver@example.com';\nconst EXCLUDED_EMAIL = 'excluded@example.com';\nconst EXCLUDED_NAME = 'flo labs';\n\nconst MIN_BRIEF_SECONDS = 90 * 60; // 1.5 hours\nconst FULL_SESSION_TOLERANCE_SECONDS = 10 * 60; // 10 minutes tolerance\n\nconst john = items.find(p => {\n  const email = (p.email || '').trim().toLowerCase();\n  const name = (p.name || '').trim().toLowerCase();\n  return email === JOHN_EMAIL || name === 'john hazlewood';\n});\n\nif (!john) {\n  throw new Error('John Hazlewood was not found in participants list.');\n}\n\nconst johnDuration = Number(john.duration || 0);\n\nif (!johnDuration || johnDuration <= 0) {\n  throw new Error('John duration is missing or zero.');\n}\n\nconst results = [];\n\nfor (const p of items) {\n  const email = (p.email || '').trim().toLowerCase();\n  const name = (p.name || '').trim().toLowerCase();\n  const duration = Number(p.duration || 0);\n\n  if (\n    email === JOHN_EMAIL ||\n    email === OLIVER_EMAIL ||\n    email === EXCLUDED_EMAIL ||\n    name === EXCLUDED_NAME\n  ) {\n    continue;\n  }\n\n  let attendance_case = '';\n  let comments = '';\n  let email_template_key = '';\n\n  if (duration < MIN_BRIEF_SECONDS) {\n    attendance_case = 'briefly_attended';\n    comments = `attended only ${Math.round(duration / 60)} minutes; sent Briefly Attended;`;\n    email_template_key = 'briefly_attended';\n  } else if ((johnDuration - duration) <= FULL_SESSION_TOLERANCE_SECONDS) {\n    attendance_case = 'full_session';\n    comments = 'attended the whole session; sent Attended + Masterclass;';\n    email_template_key = 'attended_masterclass';\n  } else {\n    attendance_case = 'missed_qna';\n    comments = 'attended part of the session and missed the end/Q&A; sent Briefly Attended + Q&A;';\n    email_template_key = 'briefly_attended_qna';\n  }\n\n  results.push({\n    json: {\n      ...p,\n      john_duration: johnDuration,\n      duration_minutes: Math.round(duration / 60),\n      john_duration_minutes: Math.round(johnDuration / 60),\n      minutes_shorter_than_john: Math.round((johnDuration - duration) / 60),\n      attendance_case,\n      comments,\n      email_template_key\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -976,
+        944
+      ],
+      "id": "954631db-04e8-46fe-92cd-e5d8bc91b3e0",
+      "name": "Classify Attendance Cases"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $node[\"Classify Attendance Cases\"].json[\"email_template_key\"] }}",
+                    "rightValue": "attended_masterclass",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b42c6dff-c4d6-49b4-9c22-633664351b36"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c54796e2-9e2b-4608-b771-29aeb57e1a42",
+                    "leftValue": "={{ $node[\"Classify Attendance Cases\"].json[\"email_template_key\"] }}",
+                    "rightValue": "briefly_attended_qna",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bff681b3-0ca2-4b5c-aa7b-b048feb38c95",
+                    "leftValue": "={{ $node[\"Classify Attendance Cases\"].json[\"email_template_key\"] }}",
+                    "rightValue": "briefly_attended",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        928
+      ],
+      "id": "6e00320c-187b-4dc3-86f8-a2f0e6f8f049",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://zoom.us/oauth/token",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "grant_type",
+              "value": "account_credentials"
+            },
+            {
+              "name": "account_id",
+              "value": "REDACTED_ZOOM_ACCOUNT_ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -2096,
+        944
+      ],
+      "id": "16b6ae72-8cf8-442d-8364-b956b39fbec6",
+      "name": "Generate Zoom API Token",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REDACTED_CREDENTIAL_ID",
+          "name": "Header Auth account 2"
+        },
+        "httpBasicAuth": {
+          "id": "REDACTED_CREDENTIAL_ID",
+          "name": "Zoom API Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const participants = $json.participants || [];\n\nconst grouped = {};\n\nfor (const p of participants) {\n  // مفتاح التجميع. الأفضل نبدأ بالإيميل، وإذا ما فيه نستخدم user_id، وإذا ما فيه نستخدم الاسم\n  const key =\n    (p.user_email && p.user_email.trim().toLowerCase()) ||\n    (p.user_id && String(p.user_id).trim()) ||\n    (p.name && p.name.trim().toLowerCase()) ||\n    `unknown_${Math.random()}`;\n\n  if (!grouped[key]) {\n    grouped[key] = {\n      user_id: p.user_id || null,\n      name: p.name || null,\n      email: p.user_email || null,\n      first_join_time: p.join_time || null,\n      last_leave_time: p.leave_time || null,\n      duration: Number(p.duration || 0),\n      sessions_count: 1\n    };\n  } else {\n    // جمع المدة\n    grouped[key].duration += Number(p.duration || 0);\n\n    // تحديث أول وقت دخول\n    if (\n      p.join_time &&\n      (!grouped[key].first_join_time || new Date(p.join_time) < new Date(grouped[key].first_join_time))\n    ) {\n      grouped[key].first_join_time = p.join_time;\n    }\n\n    // تحديث آخر وقت خروج\n    if (\n      p.leave_time &&\n      (!grouped[key].last_leave_time || new Date(p.leave_time) > new Date(grouped[key].last_leave_time))\n    ) {\n      grouped[key].last_leave_time = p.leave_time;\n    }\n\n    // عداد عدد الجلسات\n    grouped[key].sessions_count += 1;\n\n    // لو كان الحقل ناقص بالسجل الأول، نعبيه من السجلات التالية\n    if (!grouped[key].user_id && p.user_id) grouped[key].user_id = p.user_id;\n    if (!grouped[key].name && p.name) grouped[key].name = p.name;\n    if (!grouped[key].email && p.user_email) grouped[key].email = p.user_email;\n  }\n}\n\nreturn Object.values(grouped).map((p, index) => ({\n  json: {\n    id: index + 1,\n    user_id: p.user_id,\n    name: p.name,\n    email: p.email,\n    first_join_time: p.first_join_time,\n    last_leave_time: p.last_leave_time,\n    duration: p.duration,\n    sessions_count: p.sessions_count\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        944
+      ],
+      "id": "467b4d11-4056-4a83-ad2b-b7c5285c75e9",
+      "name": "Normalize Participants List"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ffc717a8-9bb6-4df5-b89d-d7f5cbc808cf",
+              "name": "headers",
+              "value": "={{ $json.headers }}",
+              "type": "object"
+            },
+            {
+              "id": "e65b2e4d-6156-405b-b3f4-ee63318cf348",
+              "name": "headers.host",
+              "value": "={{ $json.headers.host }}",
+              "type": "string"
+            },
+            {
+              "id": "15ca11c2-9143-4aa3-b17e-2c08028d1485",
+              "name": "headers[\"x-real-ip\"]",
+              "value": "={{ $json.headers[\"x-real-ip\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "30b57353-ac37-4e3c-8f37-c9c68791cb1c",
+              "name": "headers[\"x-forwarded-for\"]",
+              "value": "={{ $json.headers[\"x-forwarded-for\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "acb91fa9-2655-41d5-942b-356d43e58b59",
+              "name": "headers[\"x-forwarded-proto\"]",
+              "value": "={{ $json.headers[\"x-forwarded-proto\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "18943023-8d9e-44f4-bbf9-165fe2c3c60a",
+              "name": "headers.clientid",
+              "value": "={{ $json.headers.clientid }}",
+              "type": "string"
+            },
+            {
+              "id": "02bb07bf-22c4-4fbf-822f-43218f5b33f9",
+              "name": "body.payload.object.duration",
+              "value": "={{ $json.body.payload.object.duration }}",
+              "type": "number"
+            },
+            {
+              "id": "339c0bd5-9aae-44e3-a336-84eef7b2dd25",
+              "name": "body.payload.object.start_time",
+              "value": "={{ $json.body.payload.object.start_time }}",
+              "type": "string"
+            },
+            {
+              "id": "bcc481b9-14e8-4098-ba90-6f175a3dd4ee",
+              "name": "body.payload.object.timezone",
+              "value": "={{ $json.body.payload.object.timezone }}",
+              "type": "string"
+            },
+            {
+              "id": "a788d8c5-5d8b-4ab4-af39-b5ca35d5cc80",
+              "name": "body.payload.object.end_time",
+              "value": "={{ $json.body.payload.object.end_time }}",
+              "type": "string"
+            },
+            {
+              "id": "5f7a8f59-ce69-4664-9af4-0649767e8826",
+              "name": "body.payload.object.topic",
+              "value": "={{ $json.body.payload.object.topic }}",
+              "type": "string"
+            },
+            {
+              "id": "23c2b845-e077-4f8d-a452-cadf613a7425",
+              "name": "body.payload.object.id",
+              "value": "={{ $json.body.payload.object.id }}",
+              "type": "string"
+            },
+            {
+              "id": "28a9a5b0-ec04-4bbc-bef1-b383afcafd30",
+              "name": "body.payload.object.type",
+              "value": "={{ $json.body.payload.object.type }}",
+              "type": "number"
+            },
+            {
+              "id": "3f470f95-5a64-42d8-bc20-f0265c9e552d",
+              "name": "body.payload.object.uuid",
+              "value": "={{ $json.body.payload.object.uuid }}",
+              "type": "string"
+            },
+            {
+              "id": "34b7c063-1b56-48f0-bd81-89493767f70e",
+              "name": "body.payload.object.host_id",
+              "value": "={{ $json.body.payload.object.host_id }}",
+              "type": "string"
+            },
+            {
+              "id": "1356e2b4-aca2-4502-bdcb-74d019957363",
+              "name": "body.event_ts",
+              "value": "={{ $json.body.event_ts }}",
+              "type": "number"
+            },
+            {
+              "id": "ceb19ad4-d7d3-4caa-9f3a-96b523f987f1",
+              "name": "webhookUrl",
+              "value": "={{ $json.webhookUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "427ac028-ff80-4a67-ac64-7db1f0f71b9e",
+              "name": "executionMode",
+              "value": "={{ $json.executionMode }}",
+              "type": "string"
+            },
+            {
+              "id": "749c3161-e4e2-491d-8137-05ba9250341f",
+              "name": "uuid",
+              "value": "={{ $json.body.payload.object.uuid }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2320,
+        944
+      ],
+      "id": "a531b0e5-ba6b-46a2-adef-751c70933fae",
+      "name": "Prepare Meeting Data"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.zoom.us/v2/report/meetings/{{$node[\"Prepare Meeting Data\"].json.body.payload.object.id}}/participants",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "page_size",
+              "value": "300"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $node[\"Generate Zoom API Token\"].json[\"access_token\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1424,
+        944
+      ],
+      "id": "819d8710-7e8b-4570-9ba0-e89dda03cb88",
+      "name": "Get Participants"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "96c42789-18e8-42a3-bc23-d5917a40ad39",
+              "leftValue": "={{ $json.body.payload.object.id }}",
+              "rightValue": "REDACTED_MEETING_ID",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "b4306018-6381-4965-8c37-d2c7bbf5bc76",
+              "leftValue": "={{ $json.body.payload.object.topic }}",
+              "rightValue": "FloLabs Internship Orientation Meeting",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2992,
+        992
+      ],
+      "id": "2bf02369-dbfb-4b93-a87a-9a4ad101bf2d",
+      "name": "Is target orientation meeting?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7446d699-5cc3-4e82-920a-a771770bc91d",
+              "leftValue": "={{ $json.body.event }}",
+              "rightValue": "meeting.ended",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -3216,
+        1072
+      ],
+      "id": "17e5ba5a-d116-4e5b-994b-10e5aedb1a9b",
+      "name": "Is meeting ended?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dfb83977-f91c-4908-8b59-4e7bbd4dde3c",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5fd1384e-5072-4436-a7ff-75a499b8c24d",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "a709de32-1e34-4d64-8053-c09282486410",
+              "name": "first_join_time",
+              "value": "={{ $json.first_join_time }}",
+              "type": "string"
+            },
+            {
+              "id": "80bfbf42-7789-4d69-92ea-59ce0f39b691",
+              "name": "last_leave_time",
+              "value": "={{ $json.last_leave_time }}",
+              "type": "string"
+            },
+            {
+              "id": "3fd66e4d-bf3d-4f02-a2f0-a16ad2812c33",
+              "name": "duration",
+              "value": "={{ $json.duration }}",
+              "type": "number"
+            },
+            {
+              "id": "0d0bce15-d587-4c67-a6e0-07407fedb5ae",
+              "name": "attendance_case",
+              "value": "={{ $json.attendance_case }}",
+              "type": "string"
+            },
+            {
+              "id": "652f127a-463f-438c-a018-28d47cc4bba6",
+              "name": "comments",
+              "value": "={{ $json.comments }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        752
+      ],
+      "id": "115bfa85-fe7d-4079-b683-5bf8984ced50",
+      "name": "Set Email + Sheet Data (Full Session)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dfb83977-f91c-4908-8b59-4e7bbd4dde3c",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5fd1384e-5072-4436-a7ff-75a499b8c24d",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "a709de32-1e34-4d64-8053-c09282486410",
+              "name": "first_join_time",
+              "value": "={{ $json.first_join_time }}",
+              "type": "string"
+            },
+            {
+              "id": "80bfbf42-7789-4d69-92ea-59ce0f39b691",
+              "name": "last_leave_time",
+              "value": "={{ $json.last_leave_time }}",
+              "type": "string"
+            },
+            {
+              "id": "3fd66e4d-bf3d-4f02-a2f0-a16ad2812c33",
+              "name": "duration",
+              "value": "={{ $json.duration }}",
+              "type": "number"
+            },
+            {
+              "id": "0d0bce15-d587-4c67-a6e0-07407fedb5ae",
+              "name": "attendance_case",
+              "value": "={{ $json.attendance_case }}",
+              "type": "string"
+            },
+            {
+              "id": "652f127a-463f-438c-a018-28d47cc4bba6",
+              "name": "comments",
+              "value": "={{ $json.comments }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        944
+      ],
+      "id": "99d3263c-6daa-4c65-bb2a-d307da00957d",
+      "name": "Set Email + Sheet Data (Missed Q&A)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dfb83977-f91c-4908-8b59-4e7bbd4dde3c",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5fd1384e-5072-4436-a7ff-75a499b8c24d",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "a709de32-1e34-4d64-8053-c09282486410",
+              "name": "first_join_time",
+              "value": "={{ $json.first_join_time }}",
+              "type": "string"
+            },
+            {
+              "id": "80bfbf42-7789-4d69-92ea-59ce0f39b691",
+              "name": "last_leave_time",
+              "value": "={{ $json.last_leave_time }}",
+              "type": "string"
+            },
+            {
+              "id": "3fd66e4d-bf3d-4f02-a2f0-a16ad2812c33",
+              "name": "duration",
+              "value": "={{ $json.duration }}",
+              "type": "number"
+            },
+            {
+              "id": "0d0bce15-d587-4c67-a6e0-07407fedb5ae",
+              "name": "attendance_case",
+              "value": "={{ $json.attendance_case }}",
+              "type": "string"
+            },
+            {
+              "id": "652f127a-463f-438c-a018-28d47cc4bba6",
+              "name": "comments",
+              "value": "={{ $json.comments }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        1136
+      ],
+      "id": "bd96c859-87e7-42b1-82df-363fada5d823",
+      "name": "Set Email + Sheet Data (Briefly Attended)"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Thank You for Attending. Your Next Step at FloLabs",
+        "message": "=<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $json.name}},</p>\n\n  <p>Thank you for attending our recent FloLabs Orientation Session. It was a pleasure having you with us and sharing our vision, as well as the exciting opportunities we’re building together.</p>\n\n  <p>At FloLabs, we offers multiple pathways - Internship, Apprenticeship, Fellowship, Scholar, Emerging Entrepreneur, and Entrepreneur in Residence, all designed to provide hands-on experience in real-world R&amp;D projects.</p>\n\n  <p>Our internship is designed to be flexible and supportive of your academic and personal commitments.</p>\n\n  <p>Here’s a quick overview of the structure:</p>\n\n  <p><strong>Total commitment:</strong> 500 hours</p>\n\n  <p><strong>450 hours:</strong> Hands-on work with our teams on real-life projects aligned with your background</p>\n\n  <p><strong>50+ hours:</strong> Masterclasses</p>\n\n  <p><strong>Weekly time commitment requirement:</strong> 8–10 hours per week minimum</p>\n\n  <p>This is an unpaid, experiential internship focused on helping participants develop expertise in AI and/or Robotics through applied learning.</p>\n\n  <p>If you’re interested in moving forward, please review the materials below. These are part of our Masterclass and will give you insight into our mission and the work we do. As you go through each item, share your reflections directly in the form:</p>\n\n  <p>👉<a href=\"https://flolabsrd.fillout.com/t/vDSyt4YMnTus\">https://flolabsrd.fillout.com/t/vDSyt4YMnTus</a></p>\n\n  <p>Please note that we use AI engagement tools to assess responses - your answers must be authentic and thoughtful. Submissions generated by AI tools or lacking genuine input may lead to cancellation of your application.</p>\n\n  <p>Once submitted, you’ll meet with Oliver for an overview, followed by your final interview with John Hazlewood to discuss your goals and next steps.</p>\n\n  <p>We look forward to your submission and the chance to collaborate with you soon.</p>\n\n</div>",
+        "options": {
+          "appendAttribution": false,
+          "ccList": "={{ 'john@example.com, oliver@example.com' }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        752
+      ],
+      "id": "b92a8c11-9462-48d3-9838-dde65db7f490",
+      "name": "Send (Attended + Masterclass) Email",
+      "webhookId": "a72af0fd-c29c-4ab6-a56f-bd4f5faf7244",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_CREDENTIAL_ID",
+          "name": "Gmail Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Orientation Recording and Next Step at FloLabs",
+        "message": "=<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $json.name}},</p>\n\n  <p>Thank you for attending our recent FloLabs Internship orientation meeting. It was a pleasure having you with us and sharing our vision, as well as the exciting opportunities we’re building together.</p>\n\n  <p>At FloLabs, our internship offers multiple pathways - Internship, Apprenticeship, Fellowship, Scholar, Emerging Entrepreneur, and Entrepreneur in Residence, all designed to provide hands-on experience in real-world R&amp;D projects.</p>\n\n  <p>Our internship is designed to be flexible and supportive of your academic and personal commitments.</p>\n\n  <p>Here’s a quick overview of the structure:</p>\n\n  <p><strong>Total commitment:</strong> 500 hours</p>\n\n  <p><strong>450 hours:</strong> Hands-on work with our teams on real-life projects aligned with your background</p>\n\n  <p><strong>50+ hours:</strong> Masterclasses</p>\n\n  <p><strong>Weekly time commitment requirement:</strong> 8–10 hours per week minimum</p>\n\n  <p>This is an unpaid, experiential internship focused on helping participants develop expertise in AI and/or Robotics through applied learning.</p>\n\n  <p>Our records show that you missed part of the meeting, therefore I'm sending you below the recording of the session so you can watch any part that you missed or need to revisit:</p>\n\n  <p><a href=\"{{ $node[\"Extract Recording Link\"].json[\"recording_share_url\"] }}\">{{ $node[\"Extract Recording Link\"].json[\"recording_share_url\"] }}</a></p>\n\n  <p>If after you've watched what you missed from the Orientation Session you’re interested in moving forward, please go through the materials below which are part of our Masterclass. As you go through each item, share your reflections directly in the form:</p>\n\n  <p>👉<a href=\"https://flolabsrd.fillout.com/t/vDSyt4YMnTus\">https://flolabsrd.fillout.com/t/vDSyt4YMnTus</a></p>\n\n  <p>Please note that we use AI engagement tools to assess responses - your answers must be authentic and thoughtful. Submissions generated by AI tools or lacking genuine input may lead to cancellation of your application.</p>\n\n  <p>Once submitted, you’ll meet with Oliver for an overview, followed by your final interview with John Hazlewood to discuss your goals and next steps.</p>\n\n  <p>We look forward to your submission and the chance to collaborate with you soon.</p>\n\n</div>",
+        "options": {
+          "appendAttribution": false,
+          "ccList": "={{ 'john@example.com, oliver@example.com' }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        944
+      ],
+      "id": "fa05a1b4-1404-4e0a-813e-d770d0fba341",
+      "name": "Send (Briefly attended + Q&A) Email",
+      "webhookId": "a72af0fd-c29c-4ab6-a56f-bd4f5faf7244",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_CREDENTIAL_ID",
+          "name": "Gmail Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Regarding Your Participation in the FloLabs Orientation Meeting",
+        "message": "=<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $json.name}},</p>\n\n  <p>I hope this message finds you well.</p>\n\n  <p>We are reaching out to you regarding your participation in the FloLabs orientation meeting. Upon reviewing attendance records, it appears that your participation duration was relatively brief. While we understand that scheduling conflicts or unforeseen circumstances may have arisen, we want to ensure that your time is well spent in future engagements.</p>\n\n  <p>If you encountered any technical difficulties or challenges that hindered your ability to fully engage in the meeting, please do not hesitate to inform us. We are committed to addressing any issues to facilitate smoother and more productive interactions.</p>\n\n  <p>Additionally, if you feel that another session or follow-up meeting would be beneficial for you, please let us know. We would be happy to invite you to the next session.</p>\n\n  <p>Thank you once again for your participation. We look forward to hearing from you and hopefully welcoming you to our future meetings.</p>\n\n</div>",
+        "options": {
+          "appendAttribution": false,
+          "ccList": "={{ 'john@example.com, oliver@example.com' }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        1136
+      ],
+      "id": "a9289801-c06a-4e19-b712-5ace3184077c",
+      "name": "Send (Briefly Attended) Email",
+      "webhookId": "a72af0fd-c29c-4ab6-a56f-bd4f5faf7244",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_CREDENTIAL_ID",
+          "name": "Gmail Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.zoom.us/v2/meetings/{{$node[\"Prepare Meeting Data\"].json.body.payload.object.id}}/recordings",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $node[\"Generate Zoom API Token\"].json[\"access_token\"] }}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1872,
+        944
+      ],
+      "id": "44993da2-9d41-4484-bf86-185ae5b33c1f",
+      "name": "Get Meeting Recordings"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20dbdba3-1d05-4993-af0f-1f7a0fe2acae",
+              "name": "recording_share_url",
+              "value": "={{ $json.share_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1648,
+        944
+      ],
+      "id": "0dfde320-a577-4bb4-8c9f-7ea16282ebd5",
+      "name": "Extract Recording Link"
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "useDataOfInput": 2
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -80,
+        944
+      ],
+      "id": "345cb56f-e2de-4492-8084-e747b1add48c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meeting-end",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3664,
+        976
+      ],
+      "id": "742056af-ba41-46b7-9863-9c8633871611",
+      "name": "Webhook",
+      "webhookId": "b2bda98e-81df-4c65-baba-6f5ec8799639",
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "520762d7-b7e5-40ff-ae69-07a198cc4e83",
+              "leftValue": "={{ ($json.body ?? $json).event }}",
+              "rightValue": "endpoint.url_validation",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -3440,
+        976
+      ],
+      "id": "f88ac46e-ca55-4a10-a5ab-4d3af16239dc",
+      "name": "Is URL validation?"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { plainToken: $json.plainToken, encryptedToken: $json.encryptedToken } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -2768,
+        752
+      ],
+      "id": "ebd2f92a-001e-42cc-b4fa-58f628ad9794",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{ \"received\": true }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -2768,
+        944
+      ],
+      "id": "d45884e7-0e07-4acf-9eeb-3a437d0bd2a1",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "14bbd8a9-7b01-4fc9-ace0-6963724c4d04",
+              "name": "plainToken",
+              "value": "={{ $json.body.payload.plainToken }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3216,
+        752
+      ],
+      "id": "0190d148-5dcc-46fc-a867-eb1143acf3c8",
+      "name": "Set plainToken"
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "value": "={{ $json.plainToken }}",
+        "dataPropertyName": "encryptedToken"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 2,
+      "position": [
+        -2992,
+        752
+      ],
+      "id": "33ed2d58-cfac-4d3f-ba7d-58dfe77794aa",
+      "name": "Crypto",
+      "credentials": {
+        "crypto": {
+          "id": "REDACTED_CREDENTIAL_ID",
+          "name": "Zoom API Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{ \"received\": true, \"ignored\": true }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -2768,
+        1168
+      ],
+      "id": "212cf6d7-79cf-4dc1-9aba-f5e0958b9778",
+      "name": "Respond Ignored"
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -2544,
+        944
+      ],
+      "id": "03b6b24f-6753-40b3-b4aa-cab27cf35238",
+      "name": "Wait",
+      "webhookId": "3bc6e8a0-653c-4002-becd-c1cee1b47eb9"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Build Rows For Applicants Sheet": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Meeting Date For Sheet": {
+      "main": [
+        [
+          {
+            "node": "Build Rows For Applicants Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Attendance Cases": {
+      "main": [
+        [
+          {
+            "node": "Format Meeting Date For Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Generate Zoom API Token": {
+      "main": [
+        [
+          {
+            "node": "Get Meeting Recordings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Participants List": {
+      "main": [
+        [
+          {
+            "node": "Classify Attendance Cases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Meeting Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Zoom API Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Participants": {
+      "main": [
+        [
+          {
+            "node": "Normalize Participants List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is target orientation meeting?": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Ignored",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is meeting ended?": {
+      "main": [
+        [
+          {
+            "node": "Is target orientation meeting?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Ignored",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Set Email + Sheet Data (Full Session)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Email + Sheet Data (Missed Q&A)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Email + Sheet Data (Briefly Attended)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Email + Sheet Data (Full Session)": {
+      "main": [
+        [
+          {
+            "node": "Send (Attended + Masterclass) Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Email + Sheet Data (Missed Q&A)": {
+      "main": [
+        [
+          {
+            "node": "Send (Briefly attended + Q&A) Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Email + Sheet Data (Briefly Attended)": {
+      "main": [
+        [
+          {
+            "node": "Send (Briefly Attended) Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Meeting Recordings": {
+      "main": [
+        [
+          {
+            "node": "Extract Recording Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Recording Link": {
+      "main": [
+        [
+          {
+            "node": "Get Participants",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send (Attended + Masterclass) Email": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Is URL validation?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is URL validation?": {
+      "main": [
+        [
+          {
+            "node": "Set plainToken",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is meeting ended?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Respond to Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set plainToken": {
+      "main": [
+        [
+          {
+            "node": "Crypto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crypto": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Prepare Meeting Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "baa8d23e-c67a-4de4-ba02-768d1765f886",
+  "meta": {
+    "instanceId": "REDACTED_INSTANCE_ID"
+  },
+  "id": "REDACTED_WORKFLOW_ID",
+  "tags": []
+}
