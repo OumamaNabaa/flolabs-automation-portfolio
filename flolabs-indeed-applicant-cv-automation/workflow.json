@@ -1,0 +1,494 @@
+{
+  "name": "Applicant CV Processing & HR Follow-up Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "58d0e26a-3e5c-4825-98e4-1ac6cb260dce",
+              "leftValue": "={{ $json.headers[\"authentication-results\"] }}",
+              "rightValue": "dkim=pass header.d=indeedemail.com",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "46880380-6fb9-4d53-b121-d8da7c47d77e",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "resume attached",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        128,
+        -176
+      ],
+      "id": "20336c45-fedd-4ca9-ac02-1e8ef58b9aed",
+      "name": "Verify Indeed Signed Email"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Normalize OpenAI Result').item.json.candidateEmail }}",
+        "subject": "Thank you for applying",
+        "message": "=\n<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $('Normalize OpenAI Result').item.json.firstName }},</p>\n\n  <p>Thank you for applying through Indeed.</p>\n\n  <p>We’re excited to learn more about you and what you’d like to contribute. Please visit our website to explore our current internship opportunities and complete the application for the role that best fits your background, interests, and goals.</p>\n\n  <p>Website:<br>\n  <a href=\"https://example.com\">https://example.com</a></p>\n\n  <p>After we receive your application through the website, we’ll review your information and follow up with the next steps.</p>\n\n  <p>Thank you again for your interest. We look forward to hearing more about you.</p>\n\n  <p>Sincerely,<br>\n  HR Team<br>\n  HR Automation Demo Team</p>\n\n</div>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2272,
+        -272
+      ],
+      "id": "d5d6b7eb-9c7d-475b-afc6-5190631a0b26",
+      "name": "Send HR Email",
+      "webhookId": "035e83cc-c7af-409b-a8e3-480a6e0fc8b6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "239b1a00-ff34-427b-b5ac-d0dc423703d0",
+              "leftValue": "={{ $json.emailFound }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1376,
+        -176
+      ],
+      "id": "c3ecfd2d-70fb-4675-969e-9f97ea901aa6",
+      "name": "Email Validation"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\nconst binary = item.binary || {};\n\nconst supportedMimeTypes = [\n  'application/pdf',\n  'application/msword',\n  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'\n];\nconst supportedExtensions = ['pdf', 'doc', 'docx'];\nconst priorityKeywords = ['cv', 'resume', 'applicant', 'curriculum'];\n\nconst validAttachments = Object.keys(binary)\n  .filter(key => {\n    const att = binary[key];\n    const mimeMatch = supportedMimeTypes.includes(att.mimeType);\n    const ext = (att.fileName || '').split('.').pop().toLowerCase();\n    const extMatch = supportedExtensions.includes(ext);\n    return mimeMatch || extMatch;\n  })\n  .map(key => ({\n    key,\n    fileName: binary[key].fileName || '',\n    mimeType: binary[key].mimeType,\n  }));\n\n// Score function\nfunction getScore(fileName) {\n  const lower = fileName.toLowerCase();\n  for (let i = 0; i < priorityKeywords.length; i++) {\n    if (lower.includes(priorityKeywords[i])) return priorityKeywords.length - i;\n  }\n  return 0;\n}\n\nif (validAttachments.length === 0) {\n  return [{\n    json: {\n      ...item.json,\n      cvFound: false,\n      reviewReason: \"No supported CV attachment found (PDF, DOC, DOCX)\",\n      firstName: item.json.firstName || \"Applicant\"\n    },\n    binary\n  }];\n}\n\n// Pick best attachment\nvalidAttachments.sort((a, b) => getScore(b.fileName) - getScore(a.fileName));\nconst best = validAttachments[0];\n\nreturn [{\n  json: {\n    ...item.json,\n    cvFound: true,\n    cvAttachmentKey: best.key,\n    cvFileName: best.fileName,\n    cvMimeType: best.mimeType\n  },\n  binary\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        -176
+      ],
+      "id": "a51afa10-dce5-416c-8707-1212ca765aa4",
+      "name": "Scan for CV Attachment"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6be8b1a3-8e8b-44c7-9cd2-6263ef2eba1f",
+              "leftValue": "={{ $json.cvFound }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        576,
+        -176
+      ],
+      "id": "4b26260f-ca4d-4d3c-8abb-9619c9247948",
+      "name": "Has Valid CV?"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first() || {};\n\n// Safely extract available data\nconst json = item.json || {};\nconst binary = item.binary || {};\n\nreturn [{\n  json: {\n    hrSubject: \"Manual Review Needed - No Personal Email Found in CV\",\n    \n    applicantName: json.firstName || \n                   json.from?.value?.[0]?.name || \n                   \"Unknown Applicant\",\n    \n    applicantRelayEmail: json.relayEmail || \n                         json.from?.value?.[0]?.address || \n                         \"unknown@indeedemail.com\",\n    \n    originalMessageId: json.messageId || \n                       json.id || \n                       \"unknown\",\n    \n    originalSubject: json.subject || \"No Subject\",\n    \n    reviewReason: \"No valid personal email address could be extracted from the attached CV\",\n    reviewStage: \"After CV Text Parsing\",\n    \n    cvFileName: json.cvFileName || \n                Object.keys(binary).map(k => binary[k].fileName).join(\", \") || \n                \"Unknown\",\n    cvMimeType: json.cvMimeType || \"Unknown\",\n    \n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        -80
+      ],
+      "id": "8226b695-e1e1-47de-b6d0-e817a4299edc",
+      "name": "Prepare HR Manual Review"
+    },
+    {
+      "parameters": {
+        "sendTo": "hr.flomad@gmail.com",
+        "subject": "={{ $json.hrSubject }}",
+        "message": "=<p>Hi HR Team,</p>\n\n<p><strong>Manual Review Required:</strong> No personal email found in the candidate's CV.</p>\n\n<p><strong>Applicant Name:</strong> {{ $('Gmail Trigger').item.json.from.value[0].name }}<br>\n<strong>Relay Email:</strong> {{ $json.applicantRelayEmail }}<br>\n<strong>Original Subject:</strong> {{ $json.originalSubject }}</p>\n\n<p><strong>CV File:</strong> {{ $json.cvFileName }} ({{ $json.cvMimeType }})</p>\n\n<p><strong>Reason:</strong> {{ $json.reviewReason }}</p>\n\n<p>Please open the original email and handle this application manually.</p>\n\n<p>Message ID: {{ $('Gmail Trigger').item.json.messageId }}</p>\n\n<p>Best regards,<br>Automation Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1824,
+        -80
+      ],
+      "id": "44ec4b50-901e-4de7-a817-7579b96b90b3",
+      "name": "Notify HR - No Email",
+      "webhookId": "52333494-683e-4a6c-823e-010e5c1b6db8"
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2048,
+        -272
+      ],
+      "id": "7c000dcc-5fdb-4564-b8b9-6d209de3818f",
+      "name": "Wait",
+      "webhookId": "70501115-127a-48c1-a677-5618d5ea5ab1"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -96,
+        -176
+      ],
+      "id": "2841f1da-62e3-4109-b74d-27df2c46a0f3",
+      "name": "Gmail Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.messageId || $json.id }}",
+        "labelIds": [
+          "Label_1682296108122091770"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2048,
+        -80
+      ],
+      "id": "94a1820b-86dd-4f12-87f5-eb8b67651185",
+      "name": "Label as Needs Review",
+      "webhookId": "3462d690-524f-4725-90a7-78fd0009c200"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "type": "file",
+              "fileType": "base64",
+              "binaryPropertyName": "={{ $binary[$json.cvAttachmentKey] }}",
+              "fileName": "={{ $binary[$json.cvAttachmentKey].fileName || $json.cvFileName || 'candidate-cv.pdf' }}"
+            },
+            {
+              "content": "Read this CV PDF carefully, including visual text.\n\nExtract only email addresses that are visibly present in the CV.\n\nReturn valid JSON only with this exact shape:\n{\n  \"candidateEmail\": string|null,\n  \"firstName\": string|null,\n  \"allEmailsFound\": string[],\n  \"emailSource\": \"cv_personal_email\"|\"indeed_relay\"|\"none\",\n  \"confidence\": number,\n  \"notes\": string\n}\n\nRules:\n- Do not invent emails.\n- candidateEmail must be one of allEmailsFound.\n- Prefer a personal email from the CV.\n- If no personal email exists but an Indeed relay email exists, use the Indeed relay email.\n- Never choose emails from internal company domains.\n- Return JSON only. No markdown."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        800,
+        -176
+      ],
+      "id": "8204d7e3-84dc-4bc4-9bd8-ede69a6f32f9",
+      "name": "OpenAI CV OCR"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\nconst response = item.json || {};\n\nlet gmailOriginal = {};\nlet scanOriginal = {};\n\ntry {\n  gmailOriginal = $('Gmail Trigger').first().json || {};\n} catch (e) {}\n\ntry {\n  scanOriginal = $('Scan for CV Attachment').first().json || {};\n} catch (e) {}\n\n// Your OpenAI node output shape:\n// response.output[0].content[0].text\nconst content =\n  response.output?.[0]?.content?.find(c => c.type === 'output_text')?.text ||\n  response.output?.[0]?.content?.[0]?.text ||\n  response.text ||\n  response.message?.content ||\n  '';\n\nlet cleaned = String(content || '').trim();\n\ncleaned = cleaned\n  .replace(/^```json/i, '')\n  .replace(/^```/i, '')\n  .replace(/```$/i, '')\n  .trim();\n\nlet parsed;\n\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  parsed = {\n    candidateEmail: null,\n    firstName: null,\n    allEmailsFound: [],\n    emailSource: 'none',\n    confidence: 0,\n    notes: `OpenAI returned non-JSON output: ${cleaned.slice(0, 500)}`\n  };\n}\n\nconst emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;\n\nlet allEmails = Array.isArray(parsed.allEmailsFound)\n  ? parsed.allEmailsFound\n  : [];\n\nallEmails = allEmails\n  .map(email => String(email || '').trim().toLowerCase())\n  .filter(email => emailRegex.test(email));\n\nallEmails = [...new Set(allEmails)];\n\nconst blockedDomains = [\n  'internal-company.com',\n  'demo-company.com',\n  'demo-company.com'\n];\n\nfunction isBlocked(email) {\n  const domain = email.split('@')[1]?.toLowerCase() || '';\n  return blockedDomains.some(d => domain === d || domain.endsWith('.' + d));\n}\n\nlet candidateEmail = parsed.candidateEmail\n  ? String(parsed.candidateEmail).trim().toLowerCase()\n  : null;\n\nif (!candidateEmail || !emailRegex.test(candidateEmail) || isBlocked(candidateEmail)) {\n  candidateEmail = allEmails.find(email => !isBlocked(email)) || null;\n}\n\nif (candidateEmail && !allEmails.includes(candidateEmail)) {\n  allEmails.push(candidateEmail);\n}\n\nconst firstName =\n  parsed.firstName ||\n  gmailOriginal.from?.value?.[0]?.name?.split(/\\s+/)[0] ||\n  'Applicant';\n\nreturn [{\n  json: {\n    ...gmailOriginal,\n    ...scanOriginal,\n\n    candidateEmail,\n    emailFound: Boolean(candidateEmail),\n    allEmailsFound: allEmails,\n\n    firstName,\n    firstNameFound: Boolean(parsed.firstName),\n    firstNameSource: parsed.firstName ? 'openai_pdf_ocr' : 'fallback',\n\n    emailSource: parsed.emailSource || 'openai_pdf_ocr',\n    openAiConfidence: parsed.confidence ?? null,\n    openAiNotes: parsed.notes || null,\n    openAiRawResponse: cleaned,\n\n    messageId: scanOriginal.messageId || gmailOriginal.messageId || scanOriginal.id || gmailOriginal.id,\n    relayEmail: scanOriginal.relayEmail || gmailOriginal.from?.value?.[0]?.address,\n    subject: scanOriginal.subject || gmailOriginal.subject,\n    cvFileName: scanOriginal.cvFileName,\n    cvMimeType: scanOriginal.cvMimeType\n  },\n  binary: item.binary\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        -176
+      ],
+      "id": "324ac401-f589-4efd-9882-f73222227980",
+      "name": "Normalize OpenAI Result"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3bddd930-ca61-4266-9ce1-c11171f8d0c6",
+              "leftValue": "={{ $json.id ? true : false }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1824,
+        -272
+      ],
+      "id": "e9fc3d60-0e81-4be6-b5c6-d53da655bba1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "limit": 1,
+        "filters": {
+          "q": "=in:anywhere from:me to:{{ $json.candidateEmail }} \"We’re excited to learn more about you and what you’d like to contribute. Please visit our website to explore our current internship opportunities and complete the application for the role that best fits your background, interests, and goals.\""
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        -272
+      ],
+      "id": "e74b5223-b938-4c41-b901-fc5e8db08462",
+      "name": "Search if Email sent before",
+      "webhookId": "c2a567e2-78f3-4a3e-a388-505f44d4af1a",
+      "alwaysOutputData": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Verify Indeed Signed Email": {
+      "main": [
+        [
+          {
+            "node": "Scan for CV Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Validation": {
+      "main": [
+        [
+          {
+            "node": "Search if Email sent before",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare HR Manual Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scan for CV Attachment": {
+      "main": [
+        [
+          {
+            "node": "Has Valid CV?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Valid CV?": {
+      "main": [
+        [
+          {
+            "node": "OpenAI CV OCR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Prepare HR Manual Review": {
+      "main": [
+        [
+          {
+            "node": "Notify HR - No Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify HR - No Email": {
+      "main": [
+        [
+          {
+            "node": "Label as Needs Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Verify Indeed Signed Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI CV OCR": {
+      "main": [
+        [
+          {
+            "node": "Normalize OpenAI Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize OpenAI Result": {
+      "main": [
+        [
+          {
+            "node": "Email Validation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Send HR Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search if Email sent before": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "saveExecutionProgress": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "5462d1fa-e953-460b-b27e-5dcf0f68c031",
+  "id": "h8jv3FmPHmEIeqFJ",
+  "tags": []
+}
