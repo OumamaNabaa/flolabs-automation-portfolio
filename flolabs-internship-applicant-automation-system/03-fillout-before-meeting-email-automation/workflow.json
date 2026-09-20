@@ -1,0 +1,3132 @@
+{
+  "name": "3 - Receive Fillout Form ( Websites & Presentations ) & Send ( Before Meeting Email ) with (Reminders)",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3bddd930-ca61-4266-9ce1-c11171f8d0c6",
+              "leftValue": "={{ $json.id ? true : false }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2048,
+        480
+      ],
+      "id": "31dba3ce-0872-4683-ad7d-b5b48156cc7c",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -2720,
+        624
+      ],
+      "id": "359497a3-83be-42db-a9d7-bae5cee43157",
+      "name": "Loop Over Items5"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3bddd930-ca61-4266-9ce1-c11171f8d0c6",
+              "leftValue": "={{ $json.id ? true : false }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2048,
+        848
+      ],
+      "id": "50e56148-5549-44fc-91df-1e25746c517d",
+      "name": "If8"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -2720,
+        992
+      ],
+      "id": "93daa531-ecc8-4cba-862e-36f83e26a18b",
+      "name": "Loop Over Items6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3bddd930-ca61-4266-9ce1-c11171f8d0c6",
+              "leftValue": "={{ $json.id ? true : false }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2048,
+        1216
+      ],
+      "id": "7d36a903-0c22-45cc-bf9a-b034610517df",
+      "name": "If9"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -2720,
+        1360
+      ],
+      "id": "823df36c-a086-46cc-8b92-a80705d068ac",
+      "name": "Loop Over Items9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "29bb0fdc-16d0-47d0-8acc-6ade0884afdd",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "2efe044e-6222-4a75-954c-7348a7cfe32c",
+              "name": "first_name",
+              "value": "={{ $json.first_name }}",
+              "type": "string"
+            },
+            {
+              "id": "e1fdda48-2788-4c85-a276-7e91c0c9a047",
+              "name": "last_name",
+              "value": "={{ $json.last_name }}",
+              "type": "string"
+            },
+            {
+              "id": "fc7ca135-a229-40f9-a372-25553021effe",
+              "name": "applicant_email",
+              "value": "={{ $json.applicant_email }}",
+              "type": "string"
+            },
+            {
+              "id": "dba19dfe-728e-4af4-af28-d776b9154c39",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "98addd98-ca51-4666-8fea-643adcaf109e",
+              "name": "country",
+              "value": "={{ $json.country }}",
+              "type": "string"
+            },
+            {
+              "id": "2d7b549c-b14d-4757-b55d-b7086d6a1028",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "01bb801f-e7c8-4452-aca5-50d08ae3893c",
+              "name": "city",
+              "value": "={{ $json.city }}",
+              "type": "string"
+            },
+            {
+              "id": "6dd28c4c-a8e4-4012-8d12-a82e202f7a34",
+              "name": "linkedin_url",
+              "value": "={{ $json.linkedin_url }}",
+              "type": "string"
+            },
+            {
+              "id": "353fa9d7-9c41-4610-8bcf-c56154da84ca",
+              "name": "job_title",
+              "value": "={{ $json.job_title }}",
+              "type": "string"
+            },
+            {
+              "id": "2932eeaa-7f09-4119-b04c-23579029f6a9",
+              "name": "education",
+              "value": "={{ $json.education }}",
+              "type": "string"
+            },
+            {
+              "id": "d5bcb059-f323-481c-b948-94eab19d9e45",
+              "name": "cv_filename",
+              "value": "={{ $json.cv_filename }}",
+              "type": "string"
+            },
+            {
+              "id": "49873b1c-9526-4e9e-a038-d02d411e2c45",
+              "name": "source",
+              "value": "={{ $json.source }}",
+              "type": "string"
+            },
+            {
+              "id": "7c56fb22-7c4b-4235-97b7-8a83a0b4958a",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "abdea64f-7604-40d5-99d4-d4f3d9d1f176",
+              "name": "status_updated_at",
+              "value": "={{ $json.status_updated_at }}",
+              "type": "string"
+            },
+            {
+              "id": "73f250d5-a846-4ed9-ba36-0b3825ce2ee7",
+              "name": "blacklisted",
+              "value": "={{ $json.blacklisted }}",
+              "type": "number"
+            },
+            {
+              "id": "a2c8fbc0-dc96-4ec1-9c08-9f96e49af6b4",
+              "name": "thread_id",
+              "value": "={{ $json.thread_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5fe5780c-1042-41d3-b8bd-d7d80a39592c",
+              "name": "message_id",
+              "value": "={{ $json.message_id }}",
+              "type": "string"
+            },
+            {
+              "id": "4cc41631-9c28-49f2-b5c4-5b90bcbcb9fc",
+              "name": "applied_at",
+              "value": "={{ $json.applied_at }}",
+              "type": "string"
+            },
+            {
+              "id": "4c2cf833-0222-4ed8-b83e-35a2d3e70e60",
+              "name": "created_at",
+              "value": "={{ $json.created_at }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2496,
+        480
+      ],
+      "id": "d8249eb3-6c4f-4fd9-9c40-e3fa7bd2c73f",
+      "name": "Map Applicant (before_meeting) Fields"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM applicants\nWHERE status = 'before_meeting'\n  AND status_updated_at <= NOW() - INTERVAL 3 DAY;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -2944,
+        624
+      ],
+      "id": "bd9c5cf3-63c6-47d3-993f-779f6823c33a",
+      "name": "MySQL - Get Applicants (before_meeting) +3 Days",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "limit": 1,
+        "filters": {
+          "q": "=in:anywhere from:me to:{{ $('Map Applicant (before_meeting) Fields').item.json.applicant_email }} \"Just checking in on my last email. Have you had a chance to look at the recordings?\""
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -2272,
+        480
+      ],
+      "id": "f3e57eee-6abe-4b4d-8059-6d26ce20d488",
+      "name": "Search if (REMINDER BEFORE MEETING)sent",
+      "webhookId": "8613167e-7b55-4d10-82c1-b0cc54236a7f",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Map Applicant (before_meeting) Fields').item.json.thread_id }}",
+        "message": "=\n<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $('Map Applicant (before_meeting) Fields').item.json.first_name }} ,</p>\n\n  <p>Just checking in on my last email. Have you had a chance to look at the recordings?</p>\n  <p>\n    Sincerely,<br>HR Team<br>FloLabs Innovations Group\n  </p>\n</div>\n\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -1824,
+        480
+      ],
+      "id": "c4f31884-75e2-49be-9415-66aa3bfd11c3",
+      "name": "Reply With (REMINDER BEFORE MEETING)",
+      "webhookId": "df18ece2-d2c3-4e98-b475-d9807297f5e7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM applicants\nWHERE status = 'reminder_before_meeting_1'\n  AND status_updated_at <= NOW() - INTERVAL 3 DAY;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -2944,
+        992
+      ],
+      "id": "e3554edc-d877-4825-b02f-2d90db507aa8",
+      "name": "MySQL - Get Applicants (reminder_before_meeting_1) +3 Days",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "29bb0fdc-16d0-47d0-8acc-6ade0884afdd",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "2efe044e-6222-4a75-954c-7348a7cfe32c",
+              "name": "first_name",
+              "value": "={{ $json.first_name }}",
+              "type": "string"
+            },
+            {
+              "id": "e1fdda48-2788-4c85-a276-7e91c0c9a047",
+              "name": "last_name",
+              "value": "={{ $json.last_name }}",
+              "type": "string"
+            },
+            {
+              "id": "fc7ca135-a229-40f9-a372-25553021effe",
+              "name": "applicant_email",
+              "value": "={{ $json.applicant_email }}",
+              "type": "string"
+            },
+            {
+              "id": "dba19dfe-728e-4af4-af28-d776b9154c39",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "98addd98-ca51-4666-8fea-643adcaf109e",
+              "name": "country",
+              "value": "={{ $json.country }}",
+              "type": "string"
+            },
+            {
+              "id": "2d7b549c-b14d-4757-b55d-b7086d6a1028",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "01bb801f-e7c8-4452-aca5-50d08ae3893c",
+              "name": "city",
+              "value": "={{ $json.city }}",
+              "type": "string"
+            },
+            {
+              "id": "6dd28c4c-a8e4-4012-8d12-a82e202f7a34",
+              "name": "linkedin_url",
+              "value": "={{ $json.linkedin_url }}",
+              "type": "string"
+            },
+            {
+              "id": "353fa9d7-9c41-4610-8bcf-c56154da84ca",
+              "name": "job_title",
+              "value": "={{ $json.job_title }}",
+              "type": "string"
+            },
+            {
+              "id": "2932eeaa-7f09-4119-b04c-23579029f6a9",
+              "name": "education",
+              "value": "={{ $json.education }}",
+              "type": "string"
+            },
+            {
+              "id": "d5bcb059-f323-481c-b948-94eab19d9e45",
+              "name": "cv_filename",
+              "value": "={{ $json.cv_filename }}",
+              "type": "string"
+            },
+            {
+              "id": "49873b1c-9526-4e9e-a038-d02d411e2c45",
+              "name": "source",
+              "value": "={{ $json.source }}",
+              "type": "string"
+            },
+            {
+              "id": "7c56fb22-7c4b-4235-97b7-8a83a0b4958a",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "abdea64f-7604-40d5-99d4-d4f3d9d1f176",
+              "name": "status_updated_at",
+              "value": "={{ $json.status_updated_at }}",
+              "type": "string"
+            },
+            {
+              "id": "73f250d5-a846-4ed9-ba36-0b3825ce2ee7",
+              "name": "blacklisted",
+              "value": "={{ $json.blacklisted }}",
+              "type": "number"
+            },
+            {
+              "id": "a2c8fbc0-dc96-4ec1-9c08-9f96e49af6b4",
+              "name": "thread_id",
+              "value": "={{ $json.thread_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5fe5780c-1042-41d3-b8bd-d7d80a39592c",
+              "name": "message_id",
+              "value": "={{ $json.message_id }}",
+              "type": "string"
+            },
+            {
+              "id": "4cc41631-9c28-49f2-b5c4-5b90bcbcb9fc",
+              "name": "applied_at",
+              "value": "={{ $json.applied_at }}",
+              "type": "string"
+            },
+            {
+              "id": "4c2cf833-0222-4ed8-b83e-35a2d3e70e60",
+              "name": "created_at",
+              "value": "={{ $json.created_at }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2496,
+        848
+      ],
+      "id": "0df84245-79d5-4270-9e01-59621c65228d",
+      "name": "Map Applicant (reminder_before_meeting_1) Fields"
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "limit": 1,
+        "filters": {
+          "q": "=in:anywhere from:me to:{{ $('Map Applicant (reminder_before_meeting_1) Fields').item.json.applicant_email }} \"Did you receive our previous email?\""
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -2272,
+        848
+      ],
+      "id": "77b4e1f9-ad5c-4d23-b7b9-73e24f4bdece",
+      "name": "Search if (Reminder 1st - Interested or Not(before_meeting))sent",
+      "webhookId": "4609c8ca-a2d6-4702-91eb-242dcc34211d",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Map Applicant (reminder_before_meeting_1) Fields').item.json.thread_id }}",
+        "message": "=\n<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $('Map Applicant (reminder_before_meeting_1) Fields').item.json.first_name }} ,</p>\n\n  <p>Did you receive our previous email?</p>\n  <p>\n    Sincerely,<br>HR Team<br>FloLabs Innovations Group\n  </p>\n</div>\n\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -1824,
+        848
+      ],
+      "id": "ca593e88-c6fd-40d0-86d6-84d8ab18c541",
+      "name": "Reply With (Reminder 1st - Interested or Not(before_meeting))",
+      "webhookId": "c1560732-9d1f-4248-b0bb-46cce8d609a9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM applicants\nWHERE status = 'reminder_before_meeting_2'\n  AND status_updated_at <= NOW() - INTERVAL 3 DAY;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -2944,
+        1360
+      ],
+      "id": "91bc3cd3-bdd7-4aed-a7cf-8995c86a6fe9",
+      "name": "MySQL - Get Applicants (reminder_before_meeting_2) +3 Days",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "29bb0fdc-16d0-47d0-8acc-6ade0884afdd",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "2efe044e-6222-4a75-954c-7348a7cfe32c",
+              "name": "first_name",
+              "value": "={{ $json.first_name }}",
+              "type": "string"
+            },
+            {
+              "id": "e1fdda48-2788-4c85-a276-7e91c0c9a047",
+              "name": "last_name",
+              "value": "={{ $json.last_name }}",
+              "type": "string"
+            },
+            {
+              "id": "fc7ca135-a229-40f9-a372-25553021effe",
+              "name": "applicant_email",
+              "value": "={{ $json.applicant_email }}",
+              "type": "string"
+            },
+            {
+              "id": "dba19dfe-728e-4af4-af28-d776b9154c39",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "98addd98-ca51-4666-8fea-643adcaf109e",
+              "name": "country",
+              "value": "={{ $json.country }}",
+              "type": "string"
+            },
+            {
+              "id": "2d7b549c-b14d-4757-b55d-b7086d6a1028",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "01bb801f-e7c8-4452-aca5-50d08ae3893c",
+              "name": "city",
+              "value": "={{ $json.city }}",
+              "type": "string"
+            },
+            {
+              "id": "6dd28c4c-a8e4-4012-8d12-a82e202f7a34",
+              "name": "linkedin_url",
+              "value": "={{ $json.linkedin_url }}",
+              "type": "string"
+            },
+            {
+              "id": "353fa9d7-9c41-4610-8bcf-c56154da84ca",
+              "name": "job_title",
+              "value": "={{ $json.job_title }}",
+              "type": "string"
+            },
+            {
+              "id": "2932eeaa-7f09-4119-b04c-23579029f6a9",
+              "name": "education",
+              "value": "={{ $json.education }}",
+              "type": "string"
+            },
+            {
+              "id": "d5bcb059-f323-481c-b948-94eab19d9e45",
+              "name": "cv_filename",
+              "value": "={{ $json.cv_filename }}",
+              "type": "string"
+            },
+            {
+              "id": "49873b1c-9526-4e9e-a038-d02d411e2c45",
+              "name": "source",
+              "value": "={{ $json.source }}",
+              "type": "string"
+            },
+            {
+              "id": "7c56fb22-7c4b-4235-97b7-8a83a0b4958a",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "abdea64f-7604-40d5-99d4-d4f3d9d1f176",
+              "name": "status_updated_at",
+              "value": "={{ $json.status_updated_at }}",
+              "type": "string"
+            },
+            {
+              "id": "73f250d5-a846-4ed9-ba36-0b3825ce2ee7",
+              "name": "blacklisted",
+              "value": "={{ $json.blacklisted }}",
+              "type": "number"
+            },
+            {
+              "id": "a2c8fbc0-dc96-4ec1-9c08-9f96e49af6b4",
+              "name": "thread_id",
+              "value": "={{ $json.thread_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5fe5780c-1042-41d3-b8bd-d7d80a39592c",
+              "name": "message_id",
+              "value": "={{ $json.message_id }}",
+              "type": "string"
+            },
+            {
+              "id": "4cc41631-9c28-49f2-b5c4-5b90bcbcb9fc",
+              "name": "applied_at",
+              "value": "={{ $json.applied_at }}",
+              "type": "string"
+            },
+            {
+              "id": "4c2cf833-0222-4ed8-b83e-35a2d3e70e60",
+              "name": "created_at",
+              "value": "={{ $json.created_at }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2496,
+        1216
+      ],
+      "id": "b1f74d18-8a48-47ff-b072-46fd444743c1",
+      "name": "Map Applicant (reminder_before_meeting_2) Fields"
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "limit": 1,
+        "filters": {
+          "q": "=in:anywhere from:me to:{{ $('Map Applicant (reminder_before_meeting_2) Fields').item.json.applicant_email }} \"So that we don’t continue reaching out unnecessarily, could you please let us know whether you are still interested or not? If you're not interested anymore, just let us know and we will take you off our list and cease further communication.\""
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -2272,
+        1216
+      ],
+      "id": "9662b9a8-29c1-4277-ade2-0625f6a977ef",
+      "name": "Search if (Last Reminder(before_meeting)) sent",
+      "webhookId": "9bec342f-8825-487e-8738-a113508e20d9",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Map Applicant (reminder_before_meeting_2) Fields').item.json.thread_id }}",
+        "message": "=\n<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $('Map Applicant (reminder_before_meeting_2) Fields').item.json.first_name }} ,</p>\n\n  <p>I hope this message finds you well. We wanted to follow up again regarding your interest in the internship opportunity at FloLabs, as we haven’t heard back from you yet.</p>\n\n  <p>So that we don’t continue reaching out unnecessarily, could you please let us know whether you are still interested or not? If you're not interested anymore, just let us know and we will take you off our list and cease further communication.</p>\n\n\n  <p>\n    Sincerely,<br>HR Team<br>FloLabs Innovations Group\n  </p>\n\n</div>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -1824,
+        1216
+      ],
+      "id": "ac97082a-5247-4065-8164-eabf3881eac8",
+      "name": "Reply With (Last Reminder(before_meeting))",
+      "webhookId": "1188d2d2-7660-4dee-a369-81124e9815e5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE applicants\nSET \n  status = 'reminder_before_meeting_1',\n  status_updated_at = NOW(),\n  message_id = '{{ $(\"Reply With (REMINDER BEFORE MEETING)\").item.json.id }}'\nWHERE id = {{ $('Map Applicant (before_meeting) Fields').item.json.id }}\n  AND status = 'before_meeting';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1600,
+        480
+      ],
+      "id": "7650d868-6da5-470a-b060-0b92d1f90f73",
+      "name": "applicants - Update Status(reminder_before_meeting_1)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE applicants\nSET \n  status = 'reminder_before_meeting_2',\n  status_updated_at = NOW(),\n  message_id = '{{ $(\"Reply With (Reminder 1st - Interested or Not(before_meeting))\").item.json.id }}'\nWHERE id = {{ $('Map Applicant (reminder_before_meeting_1) Fields').item.json.id }}\n  AND status = 'reminder_before_meeting_1';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1600,
+        848
+      ],
+      "id": "d7b13061-a390-429d-823d-0dbcae1301ee",
+      "name": "applicants - Update Status(reminder_before_meeting_2)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE applicants\nSET \n  status = 'no_answer',\n  status_updated_at = NOW(),\n  message_id = '{{ $(\"Reply With (Last Reminder(before_meeting))\").item.json.id }}'\nWHERE id = {{ $('Map Applicant (reminder_before_meeting_2) Fields').item.json.id }}\n  AND status = 'reminder_before_meeting_2';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1600,
+        1216
+      ],
+      "id": "16443a5b-63de-4e2d-a912-103b0f340c69",
+      "name": "applicants - Update Status(no_answer)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  {{ Number($('Map Applicant (before_meeting) Fields').item.json.id) }},\n  'status_changed',\n  'contacted',\n  'reminder_before_meeting_1',\n  JSON_OBJECT(\n    'description', 'Status changed from before_meeting to reminder_before_meeting_1',\n    'note', 'Applicant status was changed from before_meeting to reminder_before_meeting_1 after sending the before meeting first reminder.',\n    'changed_by', 'n8n'\n  ),\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1376,
+        480
+      ],
+      "id": "5f8df358-18ae-4290-a719-fa51be4b314d",
+      "name": "applicant_events - Insert status_changed(reminder_before_meeting_1)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  {{ Number($('Map Applicant (reminder_before_meeting_1) Fields').item.json.id) }},\n  'status_changed',\n  'reminder_before_meeting_1',\n  'reminder_before_meeting_2',\n  JSON_OBJECT(\n    'description', 'Status changed from reminder_before_meeting_1 to reminder_before_meeting_2',\n    'note', 'Applicant status was changed from reminder_before_meeting_1 to reminder_before_meeting_2 after sending the before meeting second reminder.',\n    'changed_by', 'n8n'\n  ),\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1376,
+        848
+      ],
+      "id": "9e247381-4161-4533-abc0-c486b912b618",
+      "name": "applicant_events - Insert status_changed(reminder_before_meeting_2)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  {{ Number($('Map Applicant (reminder_before_meeting_2) Fields').item.json.id) }},\n  'status_changed',\n  'reminder_before_meeting_2',\n  'no_answer',\n  JSON_OBJECT(\n    'description', 'Status changed from reminder_before_meeting_2 to no_answer',\n    'note', 'Applicant status was changed from reminder_before_meeting_2 to no_answer after sending the last reminder.',\n    'changed_by', 'n8n'\n  ),\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1376,
+        1216
+      ],
+      "id": "27d88c67-64a9-4d71-b5f8-d0dd983a45d3",
+      "name": "applicant_events - Insert status_changed(no_answer)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  {{ Number($('Map Applicant (before_meeting) Fields').item.json.id) }},\n  'email_sent',\n  NULL,\n  NULL,\n  JSON_OBJECT(\n    'description', 'Before Meeting First Reminder email was sent to the applicant and message_id in applicants was updated from before_meeting to reminder_before_meeting_1',\n    'email_type', 'reminder_before_meeting_1',\n    'sent_by', 'n8n',\n    'message_id', '{{ $(\"Reply With (REMINDER BEFORE MEETING)\").item.json.id }}'\n  ),\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1152,
+        560
+      ],
+      "id": "647efdde-022a-4470-b143-484b25712eeb",
+      "name": "applicant_events - email_sent(reminder_before_meeting_1)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  {{ Number($('Map Applicant (reminder_before_meeting_1) Fields').item.json.id) }},\n  'email_sent',\n  NULL,\n  NULL,\n  JSON_OBJECT(\n    'description', 'Before Meeting Second Reminder email was sent to the applicant and message_id in applicants was updated from reminder_before_meeting_1 to reminder_before_meeting_2',\n    'email_type', 'reminder_before_meeting_2',\n    'sent_by', 'n8n',\n    'message_id', '{{ $(\"Reply With (Reminder 1st - Interested or Not(before_meeting))\").item.json.id }}'\n  ),\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1152,
+        928
+      ],
+      "id": "b83be20c-3dec-4ed2-a97a-122a6b18037c",
+      "name": "applicant_events - email_sent(reminder_before_meeting_2)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  {{ Number($('Map Applicant (reminder_before_meeting_2) Fields').item.json.id) }},\n  'email_sent',\n  NULL,\n  NULL,\n  JSON_OBJECT(\n    'description', 'Last Reminder email was sent to the applicant and message_id in applicants was updated from reminder_before_meeting_2 to no_answer',\n    'email_type', 'last reminder',\n    'sent_by', 'n8n',\n    'message_id', '{{ $(\"Reply With (Last Reminder(before_meeting))\").item.json.id }}'\n  ),\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1152,
+        1296
+      ],
+      "id": "bf786929-204e-4be3-b5ec-d4aac07c6882",
+      "name": "applicant_events - email_sent(Last Reminder)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -3168,
+        624
+      ],
+      "id": "40b6eb7e-7bf8-439f-b16c-b868b9e8eca0",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 2,
+              "triggerAtMinute": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -3168,
+        992
+      ],
+      "id": "02d0efd1-d473-4147-a29f-073edb542608",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 2,
+              "triggerAtMinute": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -3168,
+        1360
+      ],
+      "id": "05eace71-2103-41df-863c-e883974399b0",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1760,
+        192
+      ],
+      "id": "9eb0d30b-8b01-4696-878a-2232054382fe",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "REDACTED_OPENAI_CREDENTIAL_ID",
+          "name": "OPENAI_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        -320
+      ],
+      "id": "bb923575-f194-4e1d-83f8-1095f0eb4862",
+      "name": "Wait",
+      "webhookId": "087bab32-3e4e-4f7b-af48-b2c2faa92360"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -3168,
+        -32
+      ],
+      "id": "5eeda34d-0cdb-48d6-8da1-ebe8b477dc6d",
+      "name": "Node 1- Flo Labs HR Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "41333ffc-9dbe-4118-9d42-eb7ed9ff323c",
+              "leftValue": "={{ $json.headers.subject }}",
+              "rightValue": "Subject: New submission for your \"Websites & Presentations\" form",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2944,
+        -32
+      ],
+      "id": "f5956bb1-3893-4cc0-a7ee-f9510bc08345",
+      "name": "Node 2- IF - Fillout Form Submissions"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// Mode: Run Once for All Items\n// Dynamic Fillout Gmail parser.\n// Captures First name, Last name, Email.\n// Prevents answers like \"After exploring the site...\" from being treated as questions.\n// Handles confirmation fields like \"I confirm...\" and \"I will read...\" correctly.\n\nfunction asString(value) {\n  if (value === null || value === undefined) return '';\n\n  if (typeof value === 'string') return value;\n\n  if (Array.isArray(value)) {\n    return value.map(asString).filter(Boolean).join(', ');\n  }\n\n  if (typeof value === 'object') {\n    if (value.value !== undefined) return asString(value.value);\n    if (value.answer !== undefined) return asString(value.answer);\n    if (value.label !== undefined) return asString(value.label);\n    return JSON.stringify(value);\n  }\n\n  return String(value);\n}\n\nfunction clean(value) {\n  return asString(value)\n    .replace(/\\r\\n/g, '\\n')\n    .replace(/\\r/g, '\\n')\n    .trim();\n}\n\nfunction stripRequiredMark(value) {\n  return clean(value)\n    .replace(/\\s*\\*+\\s*$/g, '')\n    .trim();\n}\n\nfunction normalizeKey(value) {\n  return stripRequiredMark(value)\n    .replace(/[’‘]/g, \"'\")\n    .replace(/[“”]/g, '\"')\n    .replace(/\\s+/g, ' ')\n    .trim()\n    .toLowerCase();\n}\n\nfunction getDeep(obj, paths) {\n  for (const path of paths) {\n    let cur = obj;\n    let ok = true;\n\n    for (const part of path.split('.')) {\n      if (cur && Object.prototype.hasOwnProperty.call(cur, part)) {\n        cur = cur[part];\n      } else {\n        ok = false;\n        break;\n      }\n    }\n\n    if (ok && cur !== undefined && cur !== null) {\n      return cur;\n    }\n  }\n\n  return undefined;\n}\n\nfunction findArrayOfAnswers(obj) {\n  const candidates = [\n    obj,\n    obj.body,\n    obj.data,\n    obj.submission,\n    obj.response,\n    obj.payload,\n    obj.body?.data,\n    obj.body?.submission,\n    obj.data?.submission,\n  ].filter(Boolean);\n\n  const possibleKeys = [\n    'questions',\n    'answers',\n    'responses',\n    'fields',\n    'formFields',\n    'questionsAndAnswers',\n    'submissionQuestions',\n  ];\n\n  for (const candidate of candidates) {\n    for (const key of possibleKeys) {\n      if (Array.isArray(candidate[key])) {\n        return candidate[key];\n      }\n    }\n  }\n\n  return null;\n}\n\nfunction extractQuestion(row) {\n  return stripRequiredMark(\n    row.question ||\n    row.name ||\n    row.label ||\n    row.title ||\n    row.fieldName ||\n    row.field_name ||\n    row.questionText ||\n    row.question_text ||\n    row.key\n  );\n}\n\nfunction extractAnswer(row) {\n  return clean(\n    row.answer ??\n    row.value ??\n    row.response ??\n    row.responses ??\n    row.text ??\n    row.values ??\n    row.selected ??\n    row.selectedOptions\n  );\n}\n\nfunction parseStructuredPayload(json) {\n  const arr = findArrayOfAnswers(json);\n\n  if (!Array.isArray(arr)) return [];\n\n  return arr\n    .map(row => ({\n      question: extractQuestion(row),\n      answer: extractAnswer(row),\n      raw: row,\n    }))\n    .filter(row => row.question || row.answer);\n}\n\nfunction extractEmailOnly(value) {\n  const text = clean(value);\n  const match = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}/i);\n  return match ? match[0] : text;\n}\n\nfunction isExactFieldLabel(line) {\n  const n = normalizeKey(line);\n\n  const exactLabels = [\n    'first name',\n    'last name',\n    'email',\n    'email address',\n    'reference 1',\n    'reference 2',\n  ];\n\n  if (exactLabels.includes(n)) return true;\n\n  const labelStarts = [\n    'i will read, watch, and review',\n    'i confirm that',\n    'i agree to share',\n    'i understand that this indicates',\n    'please note:',\n  ];\n\n  return labelStarts.some(start => n.startsWith(start));\n}\n\nfunction isLikelyQuestion(line) {\n  const l = stripRequiredMark(line);\n  const n = normalizeKey(l);\n\n  if (!l) return false;\n\n  // Profile, confirmation, reference, and note labels.\n  if (isExactFieldLabel(l)) return true;\n\n  // Most real Fillout questions end with a question mark.\n  if (n.endsWith('?')) return true;\n\n  // Some long prompts include a question mark but may end with a link or parenthesis.\n  const promptStartsThatMayNotEndWithQuestionMark = [\n    'we are in the era of advanced manufacturing',\n    'flolabs is also launching',\n  ];\n\n  if (\n    n.includes('?') &&\n    promptStartsThatMayNotEndWithQuestionMark.some(start => n.startsWith(start))\n  ) {\n    return true;\n  }\n\n  // Strict non-question-mark prompts from older or slightly different forms.\n  // Keep this list narrow. Do not add broad starts like \"after exploring\".\n  const strictStarts = [\n    'can you please provide',\n    'how does it relate',\n    'how do the insights shared',\n    'what did you find the most',\n    'do you think any of the content',\n    'can you put them in a logical sequence',\n    'any other comment',\n  ];\n\n  return strictStarts.some(start => n.startsWith(start));\n}\n\nfunction isFooterLine(line) {\n  const n = normalizeKey(line);\n\n  return (\n    n.startsWith('view submission') ||\n    n.startsWith('view all') ||\n    n.includes(\"view all of your form's submissions\") ||\n    n === 'responses' ||\n    n === 'responses:' ||\n    n === 'below is a copy of the response.' ||\n    n.startsWith('you received a new submission') ||\n    n.includes('powered by fillout')\n  );\n}\n\nfunction extractResponsesBlock(text) {\n  const t = clean(text);\n  const idx = t.indexOf('RESPONSES:');\n\n  if (idx === -1) return t;\n\n  return t.slice(idx + 'RESPONSES:'.length);\n}\n\nfunction parseGmailText(text) {\n  const block = extractResponsesBlock(text);\n\n  const lines = block\n    .split('\\n')\n    .map(line => line.trim())\n    .filter(Boolean)\n    .filter(line => !isFooterLine(line))\n    .filter(line => !line.startsWith('http'))\n    .filter(line => !line.startsWith('*'));\n\n  const fields = [];\n  let currentQuestion = null;\n  let answerLines = [];\n\n  function flush() {\n    if (!currentQuestion) return;\n\n    fields.push({\n      question: stripRequiredMark(currentQuestion),\n      answer: answerLines.join('\\n').trim(),\n    });\n\n    currentQuestion = null;\n    answerLines = [];\n  }\n\n  for (const line of lines) {\n    const looksLikeQuestion = isLikelyQuestion(line);\n\n    if (looksLikeQuestion) {\n      // If the applicant typed the same question as an answer, do not split again.\n      if (\n        currentQuestion &&\n        normalizeKey(line) === normalizeKey(currentQuestion) &&\n        answerLines.length === 0\n      ) {\n        answerLines.push(line);\n        continue;\n      }\n\n      flush();\n      currentQuestion = line;\n      answerLines = [];\n    } else if (currentQuestion) {\n      answerLines.push(line);\n    }\n  }\n\n  flush();\n\n  return fields;\n}\n\nfunction findAnswerByQuestion(fields, aliases) {\n  const normalizedAliases = aliases.map(normalizeKey);\n\n  const found = fields.find(field =>\n    normalizedAliases.includes(normalizeKey(field.question))\n  );\n\n  return found ? found.answer : '';\n}\n\nreturn items.map(item => {\n  let fields = parseStructuredPayload(item.json);\n  let parseSource = 'structured';\n\n  if (fields.length === 0) {\n    fields = parseGmailText(item.json.text || '');\n    parseSource = 'gmail_text';\n  }\n\n  fields = fields.map(field => {\n    const question = stripRequiredMark(field.question);\n    let answer = clean(field.answer);\n\n    if (['email', 'email address'].includes(normalizeKey(question))) {\n      answer = extractEmailOnly(answer);\n    }\n\n    return {\n      question,\n      answer,\n    };\n  });\n\n  const firstName =\n    clean(getDeep(item.json, ['body.firstName', 'body.first_name', 'data.firstName', 'firstName'])) ||\n    findAnswerByQuestion(fields, ['First name', 'First Name']);\n\n  const lastName =\n    clean(getDeep(item.json, ['body.lastName', 'body.last_name', 'data.lastName', 'lastName'])) ||\n    findAnswerByQuestion(fields, ['Last name', 'Last Name']);\n\n  const emailRaw =\n    clean(getDeep(item.json, ['body.email', 'data.email', 'email'])) ||\n    findAnswerByQuestion(fields, ['Email', 'Email address']);\n\n  const email = extractEmailOnly(emailRaw);\n\n  item.json.formFields = fields;\n  item.json.formFields_count = fields.length;\n\n  item.json.firstName = clean(firstName);\n  item.json.lastName = clean(lastName);\n  item.json.email = clean(email);\n\n  item.json.parse_source = parseSource;\n  item.json.parse_ok = fields.length > 0;\n\n  item.json.first_three_fields = fields.slice(0, 3);\n  item.json.last_three_fields = fields.slice(-3);\n\n  item.json.profile_parse_ok = Boolean(\n    item.json.firstName &&\n    item.json.lastName &&\n    item.json.email\n  );\n\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2720,
+        -32
+      ],
+      "id": "8da079b3-cb5e-4639-87d6-bb1a9a591e3c",
+      "name": "Node 3- Parse Fillout Responses"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8b21f000-799d-4c6b-b0b6-e18f78bcf964",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "f148865c-dbdd-4465-8c45-f66bdc4ffbf8",
+              "name": "threadId",
+              "value": "={{ $json.threadId }}",
+              "type": "string"
+            },
+            {
+              "id": "9110b778-766a-4d24-baf3-592f0582fa91",
+              "name": "labelIds",
+              "value": "={{ $json.labelIds }}",
+              "type": "array"
+            },
+            {
+              "id": "99ffcbad-24a5-4f8f-869e-d3d93feb2030",
+              "name": "headers.from",
+              "value": "={{ $json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "7c4b53d6-dafd-4580-a49d-4506c71e49a2",
+              "name": "headers.date",
+              "value": "={{ $json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "64dfdc6c-9239-44ad-883f-4ee31bffe0fa",
+              "name": "headers.subject",
+              "value": "={{ $json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "af2043a8-f9d0-4705-b0f0-23b7f1cc170e",
+              "name": "headers[\"message-id\"]",
+              "value": "={{ $json.headers[\"message-id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "3b196f97-1565-4268-b9a0-f00be161f41d",
+              "name": "formFields",
+              "value": "={{ $json.formFields }}",
+              "type": "array"
+            },
+            {
+              "id": "b7892aa4-c548-4d98-ae39-36455242b1a4",
+              "name": "firstName",
+              "value": "={{ $json.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "bebabf9a-d42a-4a5c-bc75-7b1b6f42d21a",
+              "name": "lastName",
+              "value": "={{ $json.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "ac6d0ffd-946b-49c5-affc-45f243f59293",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "782cf7f2-de83-49a0-8e2e-3a0be5f3b6d4",
+              "name": "formFields_count",
+              "value": "={{ $json.formFields_count }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2496,
+        -32
+      ],
+      "id": "f8c63a7b-cb9d-4fca-b980-df0ff78d04ce",
+      "name": "Node 4- Set Gmail & Fillout Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Review these Q/A items and summarize the answer quality:\n{{$json.qa_json}}",
+        "options": {
+          "systemMessage": "You are a strict reviewer. Output ONLY valid JSON. No prose, no markdown.\n\nInput is a JSON array of objects:\n{ \"q\": string, \"a\": string }\n\nWrite a short overall summary of the answer quality.\nMention if answers look too short, generic, repetitive, copied, or unrelated.\n\nReturn exactly:\n{\n  \"summary\": string\n}\n\nDo not return passCount.\nDo not return failCount.\nDo not invent item counts."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1824,
+        -32
+      ],
+      "id": "f782b9ac-0180-4348-a98c-2afb52423b5a",
+      "name": "Node 7- AI Q&A Check (Connected Email)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const sourceItems = $items(\"Node 6- AI Payload  Build Compact Q&A JSON (Connected Email)\");\n\nconst banned = new Set([\n  'yes',\n  'no',\n  'maybe',\n  \"i don't know\",\n  'idk',\n  'n/a',\n  'na',\n  'none',\n  '-',\n]);\n\nfunction parseJsonMaybe(raw) {\n  if (!raw) return {};\n  if (typeof raw === 'object') return raw;\n\n  const s = String(raw).trim();\n\n  try {\n    return JSON.parse(s);\n  } catch (e) {\n    const m = s.match(/\\{[\\s\\S]*\\}/);\n    if (!m) return {};\n\n    try {\n      return JSON.parse(m[0]);\n    } catch (e2) {\n      return {};\n    }\n  }\n}\n\nfunction validateAnswer(answer) {\n  const a = String(answer || '').trim();\n  const s = a.toLowerCase();\n\n  const words = a\n    .split(/\\s+/)\n    .filter(word => word.length >= 2);\n\n  const uniqueWords = new Set(\n    words.map(word => word.toLowerCase())\n  );\n\n  if (banned.has(s)) return 'banned_word';\n  if (a.length < 12) return 'too_short';\n  if (words.length < 3) return 'too_few_words';\n  if (uniqueWords.size < 3) return 'repetitive_filler';\n\n  return null;\n}\n\nfunction validateQA(qa) {\n  let passCount = 0;\n  let failCount = 0;\n\n  const failedItems = [];\n  const answerCounts = {};\n\n  qa.forEach((row, index) => {\n    const q = String(row.q || '').trim();\n    const a = String(row.a || '').trim();\n    const normalizedAnswer = a.toLowerCase();\n\n    answerCounts[normalizedAnswer] = (answerCounts[normalizedAnswer] || 0) + 1;\n\n    const reason = validateAnswer(a);\n\n    if (reason) {\n      failCount++;\n      failedItems.push({\n        index: index + 1,\n        q,\n        a,\n        reason,\n      });\n    } else {\n      passCount++;\n    }\n  });\n\n  const duplicate_answers = Object.values(answerCounts)\n    .some(count => count > 3);\n\n  return {\n    passCount,\n    failCount,\n    totalItems: qa.length,\n    passRate: qa.length > 0 ? passCount / qa.length : 0,\n    duplicate_answers,\n    failedItems,\n  };\n}\n\nreturn $input.all().map((item, index) => {\n  const source = sourceItems[index]?.json || {};\n\n  let qa = [];\n\n  try {\n    qa = typeof source.qa_json === 'string'\n      ? JSON.parse(source.qa_json)\n      : Array.isArray(source.qa_json)\n        ? source.qa_json\n        : [];\n  } catch (e) {\n    qa = [];\n  }\n\n  const aiOut = parseJsonMaybe(item.json.output);\n  const result = validateQA(qa);\n\n  let summary = aiOut.summary || '';\n\n  if (result.totalItems === 0) {\n    summary = 'No answers to validate.';\n  } else if (result.passCount === result.totalItems) {\n    summary = 'All answers passed validation.';\n  } else if (!summary) {\n    summary = 'Some answers failed validation because they were too short, had too few words, used placeholder responses, or contained repetitive filler.';\n  }\n\n  return {\n    json: {\n      summary,\n\n      passCount: result.passCount,\n      failCount: result.failCount,\n      totalItems: result.totalItems,\n      passRate: result.passRate,\n      duplicate_answers: result.duplicate_answers,\n      failedItems: result.failedItems,\n\n      counts_ok: result.passCount + result.failCount === result.totalItems,\n\n      qa_count: source.qa_count,\n      qa_payload_ok: source.qa_payload_ok,\n      formFields_original_count: source.formFields_original_count,\n      formFields_review_count: source.formFields_review_count,\n      form_structure_changed: source.form_structure_changed,\n\n      applicant_email: source.applicant_email || source.email || '',\n      applicant_name: source.applicant_name || '',\n    },\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1472,
+        -32
+      ],
+      "id": "4a855f3c-c3ac-454d-829d-a9d427f7803e",
+      "name": "Node 8- Normalize AI Output (Connected Email)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ba866f40-9752-4f6d-8bfa-95704f4fe1c7",
+              "leftValue": "={{ $json.passRate }}",
+              "rightValue": 0.75,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1248,
+        -32
+      ],
+      "id": "a5758c96-3280-448d-892a-e44656a05eed",
+      "name": "Node 9- If Any Failed Answers (Connected Email)"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Node 10- fetch the applicant').item.json.thread_id }}",
+        "message": "=<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $('Node 10- fetch the applicant').item.json.first_name }},</p>\n\n  <p>Thank you for submitting your answers and completing the form!​</p>\n\n  <p>We are pleased to inform you that you have been accepted into our internship. There are just a few remaining steps to complete before signing the agreement and officially beginning. These steps are designed to help you better understand our workflow, culture, and ongoing projects before you’re fully onboarded. I'm pasting below the information on the next steps.</p>\n\n  <p>We would like to inform you that the internship position is unpaid but there are paid opportunities after it is completed for those who join our apprenticeship program. Future plans are to offer stock options allowing team members to be shareholders having a stake in the company. That said, we offer a commission-based compensation structure for successful lead generation that results in a sale of our products and services. These include our AI Travel Planner, Robots, and Educational Platform. Additionally, we are launching an innovative franchise network to promote our products through a Robot Dealership model, which will also be available to our interns as an exciting opportunity for growth and collaboration.</p>\n\n  <p>We recently had an All Team Meeting where approximately 60 FloLabs Team Members joined and many including Team Leads presented project updates. Next steps please watch the recording below as the meeting will make it clear if you want to join our journey.</p>\n\n  <p><a href=\"https://us06web.zoom.us/rec/play/awsl67M_qYZth0lW2CSw7Gf7KdsU7pEs4uXQcV-Ynw_ijrkbYUa3I7EZnM0_KOTIrLPoupVqbKruFd57.4emkTDHfwF0DIUVH?autoplay=true&startTime=1769363553000\">https://us06web.zoom.us/rec/play/awsl67M_qYZth0lW2CSw7Gf7KdsU7pEs4uXQcV-Ynw_ijrkbYUa3I7EZnM0_KOTIrLPoupVqbKruFd57.4emkTDHfwF0DIUVH?autoplay=true&startTime=1769363553000</a></p>\n\n  <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━──────────────────────────────</p>\n\n  <p><strong>Next Step:</strong></p>\n\n  <p>Before we proceed to the orientation session with John Hazlewood, our founder, we kindly ask you to watch some of our recent team meetings. These recordings feature student interns providing status updates and introductions, giving you a better understanding of our team dynamics and ongoing projects. We do not want to waste your time in John's group presentation so we would like to kindly ask you to review the recordings provided below. Please share your thoughts by completing the form:</p>\n\n  <p>Watch Team Meetings: <a href=\"https://flolabsinnovations.fillout.com/t/wqyLXfXzWGus\">https://flolabsinnovations.fillout.com/t/wqyLXfXzWGus/a></p>\n\n  <p>Furthermore, we are thrilled to announce our partnership with Unitree Robotics <a href=\"https://www.unitree.com/\">https://www.unitree.com/</a>! We are integrating the Flo Brain into Unitree's Robodog and humanoid robots, expanding our product lineup. This collaboration marks a significant advancement in our robotics initiatives and offers exciting opportunities for our interns.</p>\n\n  <p>You can check out our FIRST Robodog here: Flo Labs's RoboDog</p>\n\n  <p>Lastly, please note that John is based in Austin, Texas and will host a Zoom group meeting on Saturday at 10AM Central Time. Can you please confirm if you'd be available to join the session?</p>\n\n  <p>We look forward to hearing from you! If you have any questions or need assistance, feel free to reach out.</p>\n  <p>\n    Sincerely,<br>HR Team<br>FloLabs Innovations Group\n  </p>\n</div>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        544,
+        -320
+      ],
+      "id": "6afcc132-3a06-48da-93d1-397327d2f2d7",
+      "name": "Node 10- Reply with (Before Meeting Email)",
+      "webhookId": "310bf7ea-cdf7-4077-9c9c-809ff2b3a6d0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const formFields = Array.isArray(item.json.formFields)\n  ? item.json.formFields\n  : [];\n\nconst qa = formFields\n  .map(field => ({\n    q: String(field.question || '').trim(),\n    a: String(field.answer || '').trim(),\n  }))\n  .filter(row => row.q.length > 0);\n\nitem.json.qa_json = JSON.stringify(qa);\nitem.json.qa_count = qa.length;\n\nitem.json.applicant_email = item.json.email || '';\nitem.json.applicant_name = `${item.json.firstName || ''} ${item.json.lastName || ''}`.trim();\n\nitem.json.qa_payload_ok = qa.length > 0;\n\nreturn item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2048,
+        -32
+      ],
+      "id": "c83cfd99-1a8d-44c5-bc98-f950eb8ddc67",
+      "name": "Node 6- AI Payload  Build Compact Q&A JSON (Connected Email)"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, status, thread_id, message_id, first_name,last_name\nFROM applicants \nWHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'\nLIMIT 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -576,
+        -224
+      ],
+      "id": "9fccdc52-9ec6-47fd-ae7a-a32fc6e0afca",
+      "name": "Node 10- fetch the applicant",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d4c3afae-a846-4ff3-a3c5-7bad51ae3334",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "contacted",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "9efc2e9d-f005-4a1d-a8ac-34b920976536",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "reminder_contacted_1",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "cc5d722a-e840-4043-a658-fed3b4d93c17",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "reminder_contacted_2",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "ffa94e8e-e472-49db-932a-db3829a57a54",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "no_answer",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "2799128c-5474-49d9-ba64-3680168b7d42",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "form1_bad_response",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -128,
+        -320
+      ],
+      "id": "0b62ba69-1b26-4740-9795-9e04ba129350",
+      "name": "status = ???"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4e272852-e20f-442d-9969-ca7d2e3e23ab",
+              "leftValue": "={{ $json.id ? true : false }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -800,
+        160
+      ],
+      "id": "f4302c60-04d3-41cb-98de-ec3fae91c5fa",
+      "name": "If11"
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "limit": 1,
+        "filters": {
+          "q": "=in:anywhere from:me to:{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }} \"However, the responses submitted did not reflect the level of detail and specificity we typically expect from candidates seriously interested in joining FloLabs. To better understand your motivations and goals, we kindly ask that you resubmit the form with more thoughtful and in-depth responses.\""
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -1024,
+        160
+      ],
+      "id": "f748093a-7776-4109-b6b7-7ca228cff44a",
+      "name": "Search if (VAGUE RESPONSE)sent",
+      "webhookId": "50754986-ae9b-4d3c-8d97-2f4d2b76b8de",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('FETCH THE APPLICANT').item.json.thread_id }}",
+        "message": "=<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $('FETCH THE APPLICANT').item.json.first_name }},</p>\n  <p>Thank you for taking the time to provide your feedback.</p>\n  <p>However, the responses submitted did not reflect the level of detail and specificity we typically expect from candidates seriously interested in joining FloLabs. To better understand your motivations and goals, we kindly ask that you resubmit the form with more thoughtful and in-depth responses.</p>\n \n  <p>You can access the form here: <a href=\"https://flolabsinnovations.fillout.com/t/besSHDQpaHus\">https://flolabsinnovations.fillout.com/t/besSHDQpaHus</a></p>\n  <p>We appreciate your attention to this and look forward to reviewing your updated submission.</p>\n   <p>\n    Sincerely,<br>HR Team<br>FloLabs Innovations Group\n  </p>\n</div>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        64
+      ],
+      "id": "899c41f5-6d85-4adc-8beb-e90e3d2e7b97",
+      "name": "Reply with (VAGUE RESPONSE) Email",
+      "webhookId": "be409a4f-b719-4c37-a145-50728f68f592",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, status, thread_id, message_id, first_name,last_name\nFROM applicants \nWHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'\nLIMIT 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -576,
+        160
+      ],
+      "id": "ec9ac25b-0419-4508-b1fc-ed8117bcfd98",
+      "name": "FETCH THE APPLICANT",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const ff = Array.isArray(item.json.formFields) ? item.json.formFields : [];\n\nfunction norm(value) {\n  return String(value || '')\n    .replace(/[’‘]/g, \"'\")\n    .replace(/[“”]/g, '\"')\n    .replace(/\\s+/g, ' ')\n    .trim()\n    .toLowerCase();\n}\n\nfunction shouldExcludeField(field) {\n  const q = norm(field.question);\n  const a = norm(field.answer);\n\n  if (!q) return true;\n  if (!a) return true;\n\n  const exactExcludes = new Set([\n    'first name',\n    'last name',\n    'email',\n    'email address',\n    'reference 1',\n    'reference 2',\n  ]);\n\n  if (exactExcludes.has(q)) return true;\n\n  const excludePatterns = [\n    'i will read, watch, and review',\n    'i confirm that',\n    'i agree to share',\n    'i understand that this indicates',\n    'please note:',\n    'john hazlewood',\n    'founder and ceo',\n    'reference',\n  ];\n\n  return excludePatterns.some(pattern => q.includes(pattern));\n}\n\nconst reviewFields = ff.filter(field => !shouldExcludeField(field));\n\nitem.json.formFields_original_count = ff.length;\nitem.json.formFields = reviewFields;\nitem.json.formFields_review_count = reviewFields.length;\n\n// Warning only. Do not block the workflow because the form may change.\nitem.json.form_structure_changed = reviewFields.length !== 27;\n\nreturn item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2272,
+        -32
+      ],
+      "id": "9528a76b-6241-4901-901d-3c5ba5d773ff",
+      "name": "Node 5- Filter Review Fields"
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        64
+      ],
+      "id": "41f7d76e-7fed-4290-bc37-bbdd6f614b35",
+      "name": "Wait1",
+      "webhookId": "0b2e6046-098d-485e-93c5-208baa497a3b"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE applicants\nSET \n  status      = 'before_meeting',\n  message_id  = '{{ $json.id }}'\nWHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'\n  AND status IN ('contacted', 'reminder_contacted_1', 'reminder_contacted_2', 'no_answer', 'form1_bad_response');",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        768,
+        -320
+      ],
+      "id": "3accea59-fcca-4518-948a-bdfe39cdd913",
+      "name": "applicants - Update Status(before_meeting)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE applicants\nSET \n  status      = 'form1_bad_response',\n  message_id  = '{{ $json.id }}'\nWHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'\n  AND status IN ('contacted', 'reminder_contacted_1', 'reminder_contacted_2', 'no_answer');",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        544,
+        64
+      ],
+      "id": "7a6af0d3-09c0-4b42-92ea-48887dfc9a3d",
+      "name": "applicants - Update Status(form1_bad_response)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (SELECT id FROM applicants WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'),\n  'status_changed',\n  '{{ $('Node 10- fetch the applicant').item.json.status }}',\n  'before_meeting',\n  '{\"trigger\": \"websites_form_submitted\"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        992,
+        -320
+      ],
+      "id": "cb5a3495-09c5-4f9c-82d9-5b5d85df5cbe",
+      "name": "applicant_events - Insert status_changed(before_meeting)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (SELECT id FROM applicants WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'),\n  'status_changed',\n  '{{ $('FETCH THE APPLICANT').item.json.status }}',\n  'form1_bad_response',\n  '{\"trigger\": \"applicant_replied_to_Websites&Presentations_form_with_bad_responses\"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        768,
+        64
+      ],
+      "id": "4eb1397d-d851-45e9-a663-a3ad568237a1",
+      "name": "applicant_events - Insert status_changed(form1_bad_response)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (\n    SELECT id\n    FROM applicants\n    WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'\n  ),\n  'form_submitted',\n  NULL,\n  NULL,\n  '{\"gmail_message_id\": \"{{ $('Node 1- Flo Labs HR Gmail Trigger').item.json.messageId }}\", \"snippet\": \"applicant filled Websites & Presentations form\"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        96,
+        -320
+      ],
+      "id": "54f19b75-8ddc-4e08-a6a9-9adf32594bbf",
+      "name": "applicant_events - form_submitted(Websites & Presentations)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (\n    SELECT id\n    FROM applicants\n    WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'\n  ),\n  'email_sent',\n  NULL,\n  NULL,\n  '{\"gmail_message_id\": \"{{ $('Node 10- Reply with (Before Meeting Email)').item.json.id }}\", \"snippet\": \"Before Meeting Email sent to applicant after he filled Websites & Presentations form\"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1216,
+        -320
+      ],
+      "id": "d1ca207e-3009-477e-898f-a3bb0c5b4cd4",
+      "name": "applicant_events - email_sent( Before Meeting Email)",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (SELECT id FROM applicants WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'),\n  'email_sent',\n  NULL,\n  NULL,\n  '{\"gmail_message_id\": \"{{ $('Reply with (VAGUE RESPONSE) Email').item.json.id }}\", \"snippet\": \"VAGUE RESPONSE Email was sent to applicant after he filled Websites & Presentations form \"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        992,
+        64
+      ],
+      "id": "04933610-d315-49e5-9476-195258188d12",
+      "name": "applicant_events - email_sent(VAGUE RESPONSE Email )",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (SELECT id FROM applicants WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'),\n  'form_submitted',\n  NULL,\n  NULL,\n  '{\"gmail_message_id\": \"{{ $('Node 1- Flo Labs HR Gmail Trigger').item.json.messageId }}\", \"snippet\": \"applicant filled Websites & Presentations form with VAGUE RESPONSE \"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -128,
+        64
+      ],
+      "id": "675f9733-ad22-4564-99c6-04f6d7afaa6a",
+      "name": "applicant_events - form_submitted(Websites & Presentations(VAGUE RESPONSE))",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "56ad17a0-7bd1-4327-b016-995bece599bf",
+              "leftValue": "={{ $json.id ? true : false }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -352,
+        -224
+      ],
+      "id": "13ba30bd-290b-4e71-91d2-61ad653796a7",
+      "name": "If Applicant in DB"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 1,
+        "simple": false,
+        "filters": {
+          "q": "={{ \n  'in:anywhere from:noreply@notifications.hubspot.com \"HubSpot Form\" \"' \n  + String($('Node 5- Filter Review Fields').first().json.email || '').trim().toLowerCase()\n  + '\"'\n}}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        -128
+      ],
+      "id": "52960c83-034e-4439-8d51-155ba3f17462",
+      "name": "Get many messages",
+      "webhookId": "26f886e3-56ca-47ba-a068-d5f0574609fd",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const item = $json;\n\nfunction decodeBase64Url(data = '') {\n  if (!data) return '';\n  let normalized = data.replace(/-/g, '+').replace(/_/g, '/');\n  while (normalized.length % 4) normalized += '=';\n  return Buffer.from(normalized, 'base64').toString('utf8');\n}\n\nfunction extractBodiesFromPayload(payload) {\n  const bodies = [];\n\n  function walk(part) {\n    if (!part) return;\n\n    const mimeType = part.mimeType || '';\n    const data = part.body?.data;\n\n    if (data) {\n      bodies.push({\n        mimeType,\n        content: decodeBase64Url(data),\n      });\n    }\n\n    if (Array.isArray(part.parts)) {\n      for (const child of part.parts) {\n        walk(child);\n      }\n    }\n  }\n\n  walk(payload);\n  return bodies;\n}\n\nfunction htmlToText(input = '') {\n  return String(input)\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, ' ')\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, ' ')\n    .replace(/<br\\s*\\/?>/gi, '\\n')\n    .replace(/<\\/p>/gi, '\\n')\n    .replace(/<\\/div>/gi, '\\n')\n    .replace(/<\\/tr>/gi, '\\n')\n    .replace(/<\\/td>/gi, '\\n')\n    .replace(/<\\/th>/gi, '\\n')\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/&nbsp;/g, ' ')\n    .replace(/&amp;/g, '&')\n    .replace(/&#39;/g, \"'\")\n    .replace(/&quot;/g, '\"')\n    .replace(/\\r/g, '')\n    .replace(/[ \\t]+/g, ' ')\n    .replace(/\\n\\s+/g, '\\n')\n    .replace(/\\n{2,}/g, '\\n')\n    .trim();\n}\n\nfunction sqlSafe(value) {\n  return String(value || '')\n    .replace(/\\\\/g, '\\\\\\\\')\n    .replace(/'/g, \"\\\\'\")\n    .trim();\n}\n\nfunction cleanValue(value = '') {\n  return String(value || '')\n    .replace(/\\s+:\\s*$/g, '')\n    .replace(/^:\\s*/g, '')\n    .trim();\n}\n\nfunction getHeader(name) {\n  const target = name.toLowerCase();\n\n  if (Array.isArray(item.payload?.headers)) {\n    const header = item.payload.headers.find(h =>\n      String(h.name || '').toLowerCase() === target\n    );\n    if (header?.value) return header.value;\n  }\n\n  if (item.headers && typeof item.headers === 'object') {\n    const foundKey = Object.keys(item.headers).find(k =>\n      k.toLowerCase() === target\n    );\n\n    if (foundKey) {\n      return String(item.headers[foundKey])\n        .replace(new RegExp(`^${name}:\\\\s*`, 'i'), '')\n        .trim();\n    }\n  }\n\n  return '';\n}\n\nconst bodies = extractBodiesFromPayload(item.payload);\n\nconst rawCandidates = [\n  item.text,\n  item.textPlain,\n  item.plain,\n  item.html,\n  item.textHtml,\n  item.body,\n  item.payload?.body?.data ? decodeBase64Url(item.payload.body.data) : '',\n  ...bodies.map(b => b.content),\n].filter(Boolean);\n\nconst rawBody = rawCandidates.join('\\n\\n');\nconst textContent = htmlToText(rawBody);\n\nconst labels = [\n  'First Name',\n  'Last Name',\n  'Email',\n  'Phone Number',\n  'Country/Region',\n  'State/Region',\n  'City',\n  'LinkedIn URL',\n  'Job title',\n  'Education',\n  'CV',\n  'Source',\n  'I added hr@flolabsinnovations.com',\n];\n\nfunction normalizeLabel(value = '') {\n  return String(value || '')\n    .replace(/\\s*:\\s*$/g, '')\n    .trim()\n    .toLowerCase();\n}\n\nconst lines = textContent\n  .split('\\n')\n  .map(line => line.trim())\n  .filter(Boolean);\n\nfunction isKnownLabel(line) {\n  const normalized = normalizeLabel(line);\n  return labels.some(label => normalizeLabel(label) === normalized);\n}\n\nfunction getField(label) {\n  const wanted = normalizeLabel(label);\n\n  for (let i = 0; i < lines.length; i++) {\n    const current = normalizeLabel(lines[i]);\n\n    if (current === wanted) {\n      for (let j = i + 1; j < lines.length; j++) {\n        if (!lines[j]) continue;\n        if (isKnownLabel(lines[j])) return '';\n        return cleanValue(lines[j]);\n      }\n    }\n\n    // fallback لو HubSpot رجّعها بنفس السطر مثل: First Name: Abdullah\n    const sameLineRegex = new RegExp(`^${label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}\\\\s*:\\\\s*(.+)$`, 'i');\n    const sameLineMatch = lines[i].match(sameLineRegex);\n    if (sameLineMatch) {\n      return cleanValue(sameLineMatch[1]);\n    }\n  }\n\n  return '';\n}\n\nfunction extractCvFilename() {\n  const fromLink =\n    String(rawBody).match(/CV[\\s\\S]{0,300}?<a[^>]*>(.*?)<\\/a>/i)?.[1] ||\n    String(rawBody).match(/<a[^>]*>([^<]*\\.pdf)<\\/a>/i)?.[1];\n\n  if (fromLink) return cleanValue(fromLink);\n\n  const cvField = getField('CV');\n\n  if (!cvField) return '';\n\n  // مثال:\n  // my_cv-(1)-2549c9.pdf:https://api-na1.hubspot.com/...\n  const pdfMatch = cvField.match(/([^\\/\\s:]+\\.pdf)/i);\n  if (pdfMatch) return cleanValue(pdfMatch[1]);\n\n  return cleanValue(cvField.split(':')[0]);\n}\n\nconst dateHeader = getHeader('Date');\nconst messageIdHeader = getHeader('Message-ID');\nconst fromHeader = getHeader('From');\n\nreturn {\n  message_id: sqlSafe(item.id || ''),\n  hubspot_message_id: sqlSafe(item.messageId || messageIdHeader || ''),\n  thread_id: sqlSafe(item.threadId || ''),\n  received_at: item.date\n    ? new Date(item.date).toISOString()\n    : dateHeader\n      ? new Date(dateHeader).toISOString()\n      : '',\n  from_email: sqlSafe(item?.from?.value?.[0]?.address || fromHeader || ''),\n\n  first_name: sqlSafe(getField('First Name')),\n  last_name: sqlSafe(getField('Last Name')),\n  applicant_email: sqlSafe(getField('Email')).toLowerCase(),\n  phone: sqlSafe(getField('Phone Number')),\n  country: sqlSafe(getField('Country/Region')),\n  state: sqlSafe(getField('State/Region')),\n  city: sqlSafe(getField('City')),\n  linkedin_url: sqlSafe(getField('LinkedIn URL')),\n  job_title: sqlSafe(getField('Job title')),\n  education: sqlSafe(getField('Education')),\n  cv_filename: sqlSafe(extractCvFilename()),\n  source: sqlSafe(getField('Source')),\n\n  debug_body_length: textContent.length,\n  debug_body_preview: textContent.slice(0, 1000),\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        -128
+      ],
+      "id": "6463cb62-4f20-4aaa-a865-50a1898c3723",
+      "name": "ParseHubSpotForm"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicants (\n  first_name, last_name, applicant_email, phone,\n  country, state, city, linkedin_url,\n  job_title, education, cv_filename, source,\n  status, blacklisted, thread_id, message_id, applied_at\n)\nVALUES (\n  '{{ $('ParseHubSpotForm').item.json.first_name }}',\n  '{{ $('ParseHubSpotForm').item.json.last_name }}',\n  '{{ $('ParseHubSpotForm').item.json.applicant_email }}',\n  '{{ $('ParseHubSpotForm').item.json.phone }}',\n  '{{ $('ParseHubSpotForm').item.json.country }}',\n  '{{ $('ParseHubSpotForm').item.json.state }}',\n  '{{ $('ParseHubSpotForm').item.json.city }}',\n  '{{ $('ParseHubSpotForm').item.json.linkedin_url }}',\n  '{{ $('ParseHubSpotForm').item.json.job_title }}',\n  '{{ $('ParseHubSpotForm').item.json.education }}',\n  '{{ $('ParseHubSpotForm').item.json.cv_filename }}',\n  '{{ $('ParseHubSpotForm').item.json.source }}',\n  'before_meeting',\n  0,\n  '{{ $json.threadId }}',\n  '{{ $json.id }}',\n  '{{ $json.received_at ? new Date($json.received_at).toISOString().slice(0, 19).replace(\"T\", \" \") : new Date().toISOString().slice(0, 19).replace(\"T\", \" \") }}'\n)\nON DUPLICATE KEY UPDATE\n  first_name      = VALUES(first_name),\n  last_name       = VALUES(last_name),\n  phone           = VALUES(phone),\n  country         = VALUES(country),\n  state           = VALUES(state),\n  city            = VALUES(city),\n  linkedin_url    = VALUES(linkedin_url),\n  job_title       = VALUES(job_title),\n  education       = VALUES(education),\n  cv_filename     = VALUES(cv_filename),\n  source          = VALUES(source),\n  status          = 'new',\n  blacklisted     = 0,\n  thread_id       = VALUES(thread_id),\n  message_id      = VALUES(message_id),\n  applied_at      = VALUES(applied_at);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        992,
+        -128
+      ],
+      "id": "ec769c2c-dcf8-49c8-a16b-be6ae80a4c79",
+      "name": "applicants - Insert New Applicant",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Get Last Thread ID').item.json.threadId }}",
+        "message": "=<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $('Node 4- Set Gmail & Fillout Fields').item.json.firstName }},</p>\n\n  <p>Thank you for submitting your answers and completing the form!​</p>\n\n  <p>We are pleased to inform you that you have been accepted into our internship. There are just a few remaining steps to complete before signing the agreement and officially beginning. These steps are designed to help you better understand our workflow, culture, and ongoing projects before you’re fully onboarded. I'm pasting below the information on the next steps.</p>\n\n  <p>We would like to inform you that the internship position is unpaid but there are paid opportunities after it is completed for those who join our apprenticeship program. Future plans are to offer stock options allowing team members to be shareholders having a stake in the company. That said, we offer a commission-based compensation structure for successful lead generation that results in a sale of our products and services. These include our AI Travel Planner, Robots, and Educational Platform. Additionally, we are launching an innovative franchise network to promote our products through a Robot Dealership model, which will also be available to our interns as an exciting opportunity for growth and collaboration.</p>\n\n  <p>We recently had an All Team Meeting where approximately 60 FloLabs Team Members joined and many including Team Leads presented project updates. Next steps please watch the recording below as the meeting will make it clear if you want to join our journey.</p>\n\n  <p><a href=\"https://us06web.zoom.us/rec/play/awsl67M_qYZth0lW2CSw7Gf7KdsU7pEs4uXQcV-Ynw_ijrkbYUa3I7EZnM0_KOTIrLPoupVqbKruFd57.4emkTDHfwF0DIUVH?autoplay=true&startTime=1769363553000\">https://us06web.zoom.us/rec/play/awsl67M_qYZth0lW2CSw7Gf7KdsU7pEs4uXQcV-Ynw_ijrkbYUa3I7EZnM0_KOTIrLPoupVqbKruFd57.4emkTDHfwF0DIUVH?autoplay=true&startTime=1769363553000</a></p>\n\n  <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━──────────────────────────────</p>\n\n  <p><strong>Next Step:</strong></p>\n\n  <p>Before we proceed to the orientation session with John Hazlewood, our founder, we kindly ask you to watch some of our recent team meetings. These recordings feature student interns providing status updates and introductions, giving you a better understanding of our team dynamics and ongoing projects. We do not want to waste your time in John's group presentation so we would like to kindly ask you to review the recordings provided below. Please share your thoughts by completing the form:</p>\n\n  <p>Watch Team Meetings: <a href=\"https://flolabsinnovations.fillout.com/t/wqyLXfXzWGus\">https://flolabsinnovations.fillout.com/t/wqyLXfXzWGus</a></p>\n\n  <p>Furthermore, we are thrilled to announce our partnership with Unitree Robotics <a href=\"https://www.unitree.com/\">https://www.unitree.com/</a>! We are integrating the Flo Brain into Unitree's Robodog and humanoid robots, expanding our product lineup. This collaboration marks a significant advancement in our robotics initiatives and offers exciting opportunities for our interns.</p>\n\n  <p>You can check out our FIRST Robodog here: Flo Labs's RoboDog</p>\n\n  <p>Lastly, please note that John is based in Austin, Texas and will host a Zoom group meeting on Saturday at 10AM Central Time. Can you please confirm if you'd be available to join the session?</p>\n\n  <p>We look forward to hearing from you! If you have any questions or need assistance, feel free to reach out.</p>\n  <p>\n    Sincerely,<br>HR Team<br>FloLabs Innovations Group\n  </p>\n</div>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        -128
+      ],
+      "id": "891e68ba-d599-4f85-b191-496a33ed312f",
+      "name": "Reply with (Before Meeting Email)",
+      "webhookId": "310bf7ea-cdf7-4077-9c9c-809ff2b3a6d0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (\n    SELECT id\n    FROM applicants\n    WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'\n  ),\n  'email_sent',\n  NULL,\n  NULL,\n  '{\"gmail_message_id\": \"{{ $('Reply with (Before Meeting Email)').item.json.id }}\", \"snippet\": \"Before Meeting Email sent to applicant after he filled Websites & Presentations form\"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1664,
+        -128
+      ],
+      "id": "d35acde4-9ccb-4446-a5d0-7f59dfac9069",
+      "name": "applicant_events - email_sent( Before Meeting Email)1",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (\n    SELECT id\n    FROM applicants\n    WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'\n  ),\n  'form_submitted',\n  NULL,\n  NULL,\n  '{\"gmail_message_id\": \"{{ $('Node 1- Flo Labs HR Gmail Trigger').item.json.messageId }}\", \"snippet\": \"applicant filled Websites & Presentations form\"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1440,
+        -128
+      ],
+      "id": "fb31dbd9-e192-4b9f-9b6d-8d3b00969752",
+      "name": "applicant_events - form_submitted(Websites & Presentations)1",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (SELECT id FROM applicants WHERE applicant_email = '{{ $('Node 5- Filter Review Fields').item.json.email }}'),\n  'status_changed',\n  NULL,\n  'before_meeting',\n  '{\"note\": \"New applicant inserted to applicants table In DB & first status = before_meeting \"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1216,
+        -128
+      ],
+      "id": "44287c2f-aafa-43b6-bde6-613114bba5a1",
+      "name": "applicant_events - Insert status_changed(before_meeting)new",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "56ad17a0-7bd1-4327-b016-995bece599bf",
+              "leftValue": "={{ $json.id ? true : false }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -352,
+        160
+      ],
+      "id": "206a7780-2ff8-4af1-879a-7936f9b3e13e",
+      "name": "If Applicant in DB1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 1,
+        "simple": false,
+        "filters": {
+          "q": "={{ \n  'in:anywhere from:noreply@notifications.hubspot.com \"HubSpot Form\" \"' \n  + String($('Node 5- Filter Review Fields').first().json.email || '').trim().toLowerCase()\n  + '\"'\n}}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        256
+      ],
+      "id": "625351c0-d6fd-4975-9643-f78d77a77015",
+      "name": "Get many messages1",
+      "webhookId": "26f886e3-56ca-47ba-a068-d5f0574609fd",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const item = $json;\n\nfunction decodeBase64Url(data = '') {\n  if (!data) return '';\n  let normalized = data.replace(/-/g, '+').replace(/_/g, '/');\n  while (normalized.length % 4) normalized += '=';\n  return Buffer.from(normalized, 'base64').toString('utf8');\n}\n\nfunction extractBodiesFromPayload(payload) {\n  const bodies = [];\n\n  function walk(part) {\n    if (!part) return;\n\n    const mimeType = part.mimeType || '';\n    const data = part.body?.data;\n\n    if (data) {\n      bodies.push({\n        mimeType,\n        content: decodeBase64Url(data),\n      });\n    }\n\n    if (Array.isArray(part.parts)) {\n      for (const child of part.parts) {\n        walk(child);\n      }\n    }\n  }\n\n  walk(payload);\n  return bodies;\n}\n\nfunction htmlToText(input = '') {\n  return String(input)\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, ' ')\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, ' ')\n    .replace(/<br\\s*\\/?>/gi, '\\n')\n    .replace(/<\\/p>/gi, '\\n')\n    .replace(/<\\/div>/gi, '\\n')\n    .replace(/<\\/tr>/gi, '\\n')\n    .replace(/<\\/td>/gi, '\\n')\n    .replace(/<\\/th>/gi, '\\n')\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/&nbsp;/g, ' ')\n    .replace(/&amp;/g, '&')\n    .replace(/&#39;/g, \"'\")\n    .replace(/&quot;/g, '\"')\n    .replace(/\\r/g, '')\n    .replace(/[ \\t]+/g, ' ')\n    .replace(/\\n\\s+/g, '\\n')\n    .replace(/\\n{2,}/g, '\\n')\n    .trim();\n}\n\nfunction sqlSafe(value) {\n  return String(value || '')\n    .replace(/\\\\/g, '\\\\\\\\')\n    .replace(/'/g, \"\\\\'\")\n    .trim();\n}\n\nfunction cleanValue(value = '') {\n  return String(value || '')\n    .replace(/\\s+:\\s*$/g, '')\n    .replace(/^:\\s*/g, '')\n    .trim();\n}\n\nfunction getHeader(name) {\n  const target = name.toLowerCase();\n\n  if (Array.isArray(item.payload?.headers)) {\n    const header = item.payload.headers.find(h =>\n      String(h.name || '').toLowerCase() === target\n    );\n    if (header?.value) return header.value;\n  }\n\n  if (item.headers && typeof item.headers === 'object') {\n    const foundKey = Object.keys(item.headers).find(k =>\n      k.toLowerCase() === target\n    );\n\n    if (foundKey) {\n      return String(item.headers[foundKey])\n        .replace(new RegExp(`^${name}:\\\\s*`, 'i'), '')\n        .trim();\n    }\n  }\n\n  return '';\n}\n\nconst bodies = extractBodiesFromPayload(item.payload);\n\nconst rawCandidates = [\n  item.text,\n  item.textPlain,\n  item.plain,\n  item.html,\n  item.textHtml,\n  item.body,\n  item.payload?.body?.data ? decodeBase64Url(item.payload.body.data) : '',\n  ...bodies.map(b => b.content),\n].filter(Boolean);\n\nconst rawBody = rawCandidates.join('\\n\\n');\nconst textContent = htmlToText(rawBody);\n\nconst labels = [\n  'First Name',\n  'Last Name',\n  'Email',\n  'Phone Number',\n  'Country/Region',\n  'State/Region',\n  'City',\n  'LinkedIn URL',\n  'Job title',\n  'Education',\n  'CV',\n  'Source',\n  'I added hr@flolabsinnovations.com',\n];\n\nfunction normalizeLabel(value = '') {\n  return String(value || '')\n    .replace(/\\s*:\\s*$/g, '')\n    .trim()\n    .toLowerCase();\n}\n\nconst lines = textContent\n  .split('\\n')\n  .map(line => line.trim())\n  .filter(Boolean);\n\nfunction isKnownLabel(line) {\n  const normalized = normalizeLabel(line);\n  return labels.some(label => normalizeLabel(label) === normalized);\n}\n\nfunction getField(label) {\n  const wanted = normalizeLabel(label);\n\n  for (let i = 0; i < lines.length; i++) {\n    const current = normalizeLabel(lines[i]);\n\n    if (current === wanted) {\n      for (let j = i + 1; j < lines.length; j++) {\n        if (!lines[j]) continue;\n        if (isKnownLabel(lines[j])) return '';\n        return cleanValue(lines[j]);\n      }\n    }\n\n    // fallback لو HubSpot رجّعها بنفس السطر مثل: First Name: Abdullah\n    const sameLineRegex = new RegExp(`^${label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}\\\\s*:\\\\s*(.+)$`, 'i');\n    const sameLineMatch = lines[i].match(sameLineRegex);\n    if (sameLineMatch) {\n      return cleanValue(sameLineMatch[1]);\n    }\n  }\n\n  return '';\n}\n\nfunction extractCvFilename() {\n  const fromLink =\n    String(rawBody).match(/CV[\\s\\S]{0,300}?<a[^>]*>(.*?)<\\/a>/i)?.[1] ||\n    String(rawBody).match(/<a[^>]*>([^<]*\\.pdf)<\\/a>/i)?.[1];\n\n  if (fromLink) return cleanValue(fromLink);\n\n  const cvField = getField('CV');\n\n  if (!cvField) return '';\n\n  // مثال:\n  // my_cv-(1)-2549c9.pdf:https://api-na1.hubspot.com/...\n  const pdfMatch = cvField.match(/([^\\/\\s:]+\\.pdf)/i);\n  if (pdfMatch) return cleanValue(pdfMatch[1]);\n\n  return cleanValue(cvField.split(':')[0]);\n}\n\nconst dateHeader = getHeader('Date');\nconst messageIdHeader = getHeader('Message-ID');\nconst fromHeader = getHeader('From');\n\nreturn {\n  message_id: sqlSafe(item.id || ''),\n  hubspot_message_id: sqlSafe(item.messageId || messageIdHeader || ''),\n  thread_id: sqlSafe(item.threadId || ''),\n  received_at: item.date\n    ? new Date(item.date).toISOString()\n    : dateHeader\n      ? new Date(dateHeader).toISOString()\n      : '',\n  from_email: sqlSafe(item?.from?.value?.[0]?.address || fromHeader || ''),\n\n  first_name: sqlSafe(getField('First Name')),\n  last_name: sqlSafe(getField('Last Name')),\n  applicant_email: sqlSafe(getField('Email')).toLowerCase(),\n  phone: sqlSafe(getField('Phone Number')),\n  country: sqlSafe(getField('Country/Region')),\n  state: sqlSafe(getField('State/Region')),\n  city: sqlSafe(getField('City')),\n  linkedin_url: sqlSafe(getField('LinkedIn URL')),\n  job_title: sqlSafe(getField('Job title')),\n  education: sqlSafe(getField('Education')),\n  cv_filename: sqlSafe(extractCvFilename()),\n  source: sqlSafe(getField('Source')),\n\n  debug_body_length: textContent.length,\n  debug_body_preview: textContent.slice(0, 1000),\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        256
+      ],
+      "id": "6580a683-4035-4ada-adf7-33139a2e0be8",
+      "name": "ParseHubSpotForm1"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Get Last Thread ID1').item.json.threadId }}",
+        "message": "=<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: #202124; line-height: 1.45;\">\n\n  <p>Hi {{ $json.first_name }},</p>\n  <p>Thank you for taking the time to provide your feedback.</p>\n  <p>However, the responses submitted did not reflect the level of detail and specificity we typically expect from candidates seriously interested in joining FloLabs. To better understand your motivations and goals, we kindly ask that you resubmit the form with more thoughtful and in-depth responses.</p>\n \n  <p>You can access the form here: <a href=\"https://flolabsinnovations.fillout.com/t/besSHDQpaHus\">https://flolabsinnovations.fillout.com/t/besSHDQpaHus</a></p>\n  <p>We appreciate your attention to this and look forward to reviewing your updated submission.</p>\n   <p>\n    Sincerely,<br>HR Team<br>FloLabs Innovations Group\n  </p>\n</div>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        256
+      ],
+      "id": "69d1f3d7-6930-4e78-b4e3-3912d9a1db25",
+      "name": "Reply with (VAGUE RESPONSE) Email1",
+      "webhookId": "be409a4f-b719-4c37-a145-50728f68f592",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicants (\n  first_name, last_name, applicant_email, phone,\n  country, state, city, linkedin_url,\n  job_title, education, cv_filename, source,\n  status, blacklisted, thread_id, message_id, applied_at\n)\nVALUES (\n  '{{ $('ParseHubSpotForm1').item.json.first_name }}',\n  '{{ $('ParseHubSpotForm1').item.json.last_name }}',\n  '{{ $('ParseHubSpotForm1').item.json.applicant_email }}',\n  '{{ $('ParseHubSpotForm1').item.json.phone }}',\n  '{{ $('ParseHubSpotForm1').item.json.country }}',\n  '{{ $('ParseHubSpotForm1').item.json.state }}',\n  '{{ $('ParseHubSpotForm1').item.json.city }}',\n  '{{ $('ParseHubSpotForm1').item.json.linkedin_url }}',\n  '{{ $('ParseHubSpotForm1').item.json.job_title }}',\n  '{{ $('ParseHubSpotForm1').item.json.education }}',\n  '{{ $('ParseHubSpotForm1').item.json.cv_filename }}',\n  '{{ $('ParseHubSpotForm1').item.json.source }}',\n  'form1_bad_response',\n  0,\n  '{{ $json.threadId }}',\n  '{{ $json.id }}',\n  '{{ $json.received_at ? new Date($json.received_at).toISOString().slice(0, 19).replace(\"T\", \" \") : new Date().toISOString().slice(0, 19).replace(\"T\", \" \") }}'\n)\nON DUPLICATE KEY UPDATE\n  first_name      = VALUES(first_name),\n  last_name       = VALUES(last_name),\n  phone           = VALUES(phone),\n  country         = VALUES(country),\n  state           = VALUES(state),\n  city            = VALUES(city),\n  linkedin_url    = VALUES(linkedin_url),\n  job_title       = VALUES(job_title),\n  education       = VALUES(education),\n  cv_filename     = VALUES(cv_filename),\n  source          = VALUES(source),\n  status          = 'new',\n  blacklisted     = 0,\n  thread_id       = VALUES(thread_id),\n  message_id      = VALUES(message_id),\n  applied_at      = VALUES(applied_at);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        992,
+        256
+      ],
+      "id": "876fa576-c23a-4809-8548-dd545178ebc4",
+      "name": "applicants - Insert New Applicant1",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (SELECT id FROM applicants WHERE applicant_email = '{{ $('Node 5- Filter Review Fields').item.json.email }}'),\n  'status_changed',\n  NULL,\n  'before_meeting',\n  '{\"note\": \"New applicant inserted to applicants table In DB & first status = form1_bad_response \"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1440,
+        256
+      ],
+      "id": "b0d94c62-5979-4227-ae76-8a97d5995dc5",
+      "name": "applicant_events - Insert status_changed(form1_bad_response)new",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (SELECT id FROM applicants WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'),\n  'email_sent',\n  NULL,\n  NULL,\n  '{\"gmail_message_id\": \"{{ $('Reply with (VAGUE RESPONSE) Email1').item.json.id }}\", \"snippet\": \"VAGUE RESPONSE Email was sent to applicant after he filled Websites & Presentations form \"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1664,
+        256
+      ],
+      "id": "0323f374-b0d4-4758-97d9-676c75bc0d7e",
+      "name": "applicant_events - email_sent(VAGUE RESPONSE Email )1",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO applicant_events (\n  applicant_id,\n  event_type,\n  from_status,\n  to_status,\n  metadata,\n  created_at\n)\nVALUES (\n  (SELECT id FROM applicants WHERE applicant_email = '{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }}'),\n  'form_submitted',\n  NULL,\n  NULL,\n  '{\"gmail_message_id\": \"{{ $('Node 1- Flo Labs HR Gmail Trigger').item.json.messageId }}\", \"snippet\": \"applicant filled Websites & Presentations form with VAGUE RESPONSE \"}',\n  NOW()\n);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1216,
+        256
+      ],
+      "id": "511f6e6d-0c1b-400a-aad1-9089ec052d82",
+      "name": "applicant_events - form_submitted(Websites & Presentations(VAGUE RESPONSE))1",
+      "credentials": {
+        "mySql": {
+          "id": "REDACTED_MYSQL_CREDENTIAL_ID",
+          "name": "MYSQL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "limit": 1,
+        "filters": {
+          "q": "=in:anywhere from:me to:{{ $('Node 4- Set Gmail & Fillout Fields').first().json.email }} \"We are pleased to inform you that you have been accepted into our internship. There are just a few remaining steps to complete before signing the agreement and officially beginning. These steps are designed to help you better understand our workflow, culture, and ongoing projects before you’re fully onboarded. I'm pasting below the information on the next steps.\""
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -1024,
+        -224
+      ],
+      "id": "665c41a6-16f5-4a64-87b4-db88ae02aa18",
+      "name": "Search if (Before Meeting Email))sent",
+      "webhookId": "50754986-ae9b-4d3c-8d97-2f4d2b76b8de",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4e272852-e20f-442d-9969-ca7d2e3e23ab",
+              "leftValue": "={{ $json.id ? true : false }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -800,
+        -224
+      ],
+      "id": "e3c8a39b-0e6f-43d5-9ed0-56ec77b2845c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        256
+      ],
+      "id": "a12ca3de-f8d1-4254-be8d-d39c62983551",
+      "name": "Wait2",
+      "webhookId": "6d6f6684-f706-4ebc-838e-80a0c0a9f87d"
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        -128
+      ],
+      "id": "d25f10bc-135d-4bc6-81a5-c480d811abc3",
+      "name": "Wait3",
+      "webhookId": "d97d329b-5216-47b1-8f3f-0d6bb066f44e"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 1,
+        "simple": false,
+        "filters": {
+          "q": "={{ 'in:inbox from:' + $('Node 4- Set Gmail & Fillout Fields').item.json.email }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        -128
+      ],
+      "id": "ef52d333-7774-4600-8f2d-82313164a772",
+      "name": "Get Last Thread ID",
+      "webhookId": "1f0f885c-7e88-4e1a-ab7b-fbfa2cd61705",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 1,
+        "simple": false,
+        "filters": {
+          "q": "={{ 'in:inbox from:' + $('Node 4- Set Gmail & Fillout Fields').item.json.email }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        256
+      ],
+      "id": "d8f2be8e-e03e-4926-8708-1f9d079197a0",
+      "name": "Get Last Thread ID1",
+      "webhookId": "1f0f885c-7e88-4e1a-ab7b-fbfa2cd61705",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "GMAIL_CREDENTIAL_PLACEHOLDER"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If7": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply With (REMINDER BEFORE MEETING)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items5": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Map Applicant (before_meeting) Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply With (Reminder 1st - Interested or Not(before_meeting))",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items6": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Map Applicant (reminder_before_meeting_1) Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If9": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply With (Last Reminder(before_meeting))",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Applicant (before_meeting) Fields": {
+      "main": [
+        [
+          {
+            "node": "Search if (REMINDER BEFORE MEETING)sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL - Get Applicants (before_meeting) +3 Days": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search if (REMINDER BEFORE MEETING)sent": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply With (REMINDER BEFORE MEETING)": {
+      "main": [
+        [
+          {
+            "node": "applicants - Update Status(reminder_before_meeting_1)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL - Get Applicants (reminder_before_meeting_1) +3 Days": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Applicant (reminder_before_meeting_1) Fields": {
+      "main": [
+        [
+          {
+            "node": "Search if (Reminder 1st - Interested or Not(before_meeting))sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search if (Reminder 1st - Interested or Not(before_meeting))sent": {
+      "main": [
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply With (Reminder 1st - Interested or Not(before_meeting))": {
+      "main": [
+        [
+          {
+            "node": "applicants - Update Status(reminder_before_meeting_2)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL - Get Applicants (reminder_before_meeting_2) +3 Days": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Applicant (reminder_before_meeting_2) Fields": {
+      "main": [
+        [
+          {
+            "node": "Search if (Last Reminder(before_meeting)) sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search if (Last Reminder(before_meeting)) sent": {
+      "main": [
+        [
+          {
+            "node": "If9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply With (Last Reminder(before_meeting))": {
+      "main": [
+        [
+          {
+            "node": "applicants - Update Status(no_answer)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicants - Update Status(reminder_before_meeting_1)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - Insert status_changed(reminder_before_meeting_1)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicants - Update Status(reminder_before_meeting_2)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - Insert status_changed(reminder_before_meeting_2)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicants - Update Status(no_answer)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - Insert status_changed(no_answer)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - Insert status_changed(reminder_before_meeting_1)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - email_sent(reminder_before_meeting_1)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - Insert status_changed(reminder_before_meeting_2)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - email_sent(reminder_before_meeting_2)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - Insert status_changed(no_answer)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - email_sent(Last Reminder)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - email_sent(reminder_before_meeting_1)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - email_sent(reminder_before_meeting_2)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - email_sent(Last Reminder)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "MySQL - Get Applicants (before_meeting) +3 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "MySQL - Get Applicants (reminder_before_meeting_1) +3 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items9": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Map Applicant (reminder_before_meeting_2) Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "MySQL - Get Applicants (reminder_before_meeting_2) +3 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Node 7- AI Q&A Check (Connected Email)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Node 10- Reply with (Before Meeting Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 1- Flo Labs HR Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Node 2- IF - Fillout Form Submissions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 2- IF - Fillout Form Submissions": {
+      "main": [
+        [
+          {
+            "node": "Node 3- Parse Fillout Responses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 3- Parse Fillout Responses": {
+      "main": [
+        [
+          {
+            "node": "Node 4- Set Gmail & Fillout Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 4- Set Gmail & Fillout Fields": {
+      "main": [
+        [
+          {
+            "node": "Node 5- Filter Review Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 7- AI Q&A Check (Connected Email)": {
+      "main": [
+        [
+          {
+            "node": "Node 8- Normalize AI Output (Connected Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 8- Normalize AI Output (Connected Email)": {
+      "main": [
+        [
+          {
+            "node": "Node 9- If Any Failed Answers (Connected Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 9- If Any Failed Answers (Connected Email)": {
+      "main": [
+        [
+          {
+            "node": "Search if (Before Meeting Email))sent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search if (VAGUE RESPONSE)sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 10- Reply with (Before Meeting Email)": {
+      "main": [
+        [
+          {
+            "node": "applicants - Update Status(before_meeting)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 6- AI Payload  Build Compact Q&A JSON (Connected Email)": {
+      "main": [
+        [
+          {
+            "node": "Node 7- AI Q&A Check (Connected Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 10- fetch the applicant": {
+      "main": [
+        [
+          {
+            "node": "If Applicant in DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "status = ???": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - form_submitted(Websites & Presentations)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "If11": {
+      "main": [
+        [],
+        [
+          {
+            "node": "FETCH THE APPLICANT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search if (VAGUE RESPONSE)sent": {
+      "main": [
+        [
+          {
+            "node": "If11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply with (VAGUE RESPONSE) Email": {
+      "main": [
+        [
+          {
+            "node": "applicants - Update Status(form1_bad_response)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FETCH THE APPLICANT": {
+      "main": [
+        [
+          {
+            "node": "If Applicant in DB1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Node 5- Filter Review Fields": {
+      "main": [
+        [
+          {
+            "node": "Node 6- AI Payload  Build Compact Q&A JSON (Connected Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Reply with (VAGUE RESPONSE) Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicants - Update Status(before_meeting)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - Insert status_changed(before_meeting)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicants - Update Status(form1_bad_response)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - Insert status_changed(form1_bad_response)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - Insert status_changed(before_meeting)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - email_sent( Before Meeting Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - Insert status_changed(form1_bad_response)": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - email_sent(VAGUE RESPONSE Email )",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - form_submitted(Websites & Presentations)": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - form_submitted(Websites & Presentations(VAGUE RESPONSE))": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Applicant in DB": {
+      "main": [
+        [
+          {
+            "node": "status = ???",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages": {
+      "main": [
+        [
+          {
+            "node": "ParseHubSpotForm",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ParseHubSpotForm": {
+      "main": [
+        [
+          {
+            "node": "Get Last Thread ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicants - Insert New Applicant": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - Insert status_changed(before_meeting)new",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply with (Before Meeting Email)": {
+      "main": [
+        [
+          {
+            "node": "applicants - Insert New Applicant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - form_submitted(Websites & Presentations)1": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - email_sent( Before Meeting Email)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - Insert status_changed(before_meeting)new": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - form_submitted(Websites & Presentations)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Applicant in DB1": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - form_submitted(Websites & Presentations(VAGUE RESPONSE))",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many messages1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages1": {
+      "main": [
+        [
+          {
+            "node": "ParseHubSpotForm1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ParseHubSpotForm1": {
+      "main": [
+        [
+          {
+            "node": "Get Last Thread ID1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply with (VAGUE RESPONSE) Email1": {
+      "main": [
+        [
+          {
+            "node": "applicants - Insert New Applicant1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicants - Insert New Applicant1": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - form_submitted(Websites & Presentations(VAGUE RESPONSE))1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - Insert status_changed(form1_bad_response)new": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - email_sent(VAGUE RESPONSE Email )1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "applicant_events - form_submitted(Websites & Presentations(VAGUE RESPONSE))1": {
+      "main": [
+        [
+          {
+            "node": "applicant_events - Insert status_changed(form1_bad_response)new",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search if (Before Meeting Email))sent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Node 10- fetch the applicant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Reply with (VAGUE RESPONSE) Email1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Reply with (Before Meeting Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Last Thread ID": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Last Thread ID1": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "76f0b9c4-1aa8-45fb-aa7c-9030d4efe6e0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bd509831a9ca6f0ab00b28aa7f0d085c2e9f3437d75c75938c8c87bcce8bde68"
+  },
+  "id": "tK2EsB2Ns5mJddNU",
+  "tags": []
+}
