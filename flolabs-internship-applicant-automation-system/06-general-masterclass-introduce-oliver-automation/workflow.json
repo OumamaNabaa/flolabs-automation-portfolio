@@ -1,0 +1,614 @@
+{
+  "name": "Receive Fillout Form (General Masterclass ) & Send ( Introduce Oliver )",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -288,
+        80
+      ],
+      "id": "5df570f1-8b60-4f51-9376-812ccd39b61a",
+      "name": "Flo Labs HR Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "Gmail Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "dab5057e-fb15-4d11-ad60-de0b347c343e",
+              "leftValue": "={{ $json.headers.subject }}",
+              "rightValue": "Subject: New submission for your \"General Masterclass\" form",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        80
+      ],
+      "id": "b27cf43d-5c8e-4b97-a51d-bc21b4836178",
+      "name": "IF - Fillout Form Submissions"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// Extract answers from Fillout Gmail \"text\" using a predefined ordered question list.\n\nconst QUESTIONS = [\n  \"First name\",\n  \"Last name\",\n  \"Email\",\n\n  \"I will read, watch, and review all materials provided to me, ensuring I have the necessary knowledge to fully participate and move forward.\",\n  \"I confirm that I will provide thorough, detailed responses that reflect my genuine understanding and commitment to this opportunity.\",\n  \"I confirm that the information I provide is my own work and that I will not use AI tools to generate any responses on my behalf.\",\n  \"I agree to share my authentic opinions and experiences, offering genuine feedback without embellishment or misrepresentation.\",\n  \"I understand that this indicates my commitment to these statements, and I acknowledge that failing to adhere may jeopardize my participation in this opportunity.\",\n  \"Please note: John Hazlewood, Founder and CEO of FloLabs, will personally review your response prior to your one-on-one meeting with him. Please ensure your answers reflect your genuine reply.\",\n\n  \"After comparing the second meeting recording to the first one with Admiral Inman, what progress or new directions stood out to you the most?\",\n  \"Can you please provide your thoughts and feedback on the article? (1)\",\n  \"How does it relate to our projects at FloLabs? (1)\",\n\n  \"Can you please provide your thoughts and feedback on the podcast?\",\n  \"How do the insights shared in the podcast relate to our projects at FloLabs?\",\n\n  \"Can you please provide your thoughts and feedback on the video?\",\n  \"How does it relate to our projects at FloLabs? (2)\",\n\n  \"Can you please provide your thoughts and feedback on the article?\",\n  \"How does it relate to our projects at FloLabs?\",\n\n  \"What did you find the most interesting and the least interesting?\",\n  \"Do you think any of the content in this form should be excluded?\",\n  \"Can you put them in a logical sequence of how you think participants should review the content?\",\n  \"Any other comment you think would be helpful.\",\n\n  \"Reference 1\",\n  \"Reference 2\",\n];\n\nfunction normalize(s) {\n  return (s || \"\")\n    .replace(/\\r\\n/g, \"\\n\")\n    .replace(/\\r/g, \"\\n\");\n}\n\nfunction normalizeLines(s) {\n  return normalize(s)\n    .split(\"\\n\")\n    .map(l => l.trim())\n    .filter(l => l.length > 0);\n}\n\nfunction stripAsterisk(q) {\n  return (q || \"\").replace(/\\s*\\*+\\s*$/g, \"\").trim();\n}\n\nfunction extractResponsesBlock(text) {\n  const idx = text.indexOf(\"RESPONSES:\");\n  if (idx === -1) return text;\n  return text.slice(idx + \"RESPONSES:\".length);\n}\n\nfunction isFooterLine(line) {\n  return /^View (submission|all of your form's submissions)/i.test(line);\n}\n\nfunction parseWithAnchors(lines, questions) {\n  const qNormToCanonical = new Map();\n\n  for (const q of questions) {\n    const qClean = stripAsterisk(q);\n    const qNorm = qClean.toLowerCase();\n    qNormToCanonical.set(qNorm, qClean);\n  }\n\n  const anchors = [];\n  for (let i = 0; i < lines.length; i++) {\n    const ln = stripAsterisk(lines[i]);\n    const norm = ln.toLowerCase();\n\n    if (qNormToCanonical.has(norm)) {\n      anchors.push({ i, qNorm: norm });\n    }\n  }\n\n  const fields = [];\n  const map = {};\n\n  for (let a = 0; a < anchors.length; a++) {\n    const startIdx = anchors[a].i;\n    const qNorm = anchors[a].qNorm;\n    const q = qNormToCanonical.get(qNorm);\n\n    const answerStart = startIdx + 1;\n    const answerEnd = (a + 1 < anchors.length) ? anchors[a + 1].i : lines.length;\n\n    const ansLines = [];\n    for (let j = answerStart; j < answerEnd; j++) {\n      const line = lines[j];\n      if (isFooterLine(line)) break;\n      if (/^RESPONSES:?$/i.test(line)) continue;\n      ansLines.push(line);\n    }\n\n    const answer = ansLines.join(\"\\n\").trim();\n\n    fields.push({\n      question: q,\n      answer\n    });\n\n    map[q] = answer;\n  }\n\n  return { fields, map };\n}\n\nreturn items.map(item => {\n  const rawText = item.json.text || \"\";\n  const block = extractResponsesBlock(normalize(rawText));\n  const lines = normalizeLines(block);\n\n  const form = parseWithAnchors(lines, QUESTIONS);\n\n  item.json.formFields = form.fields;\n  item.json.firstName = form.map[\"First name\"] || null;\n  item.json.lastName = form.map[\"Last name\"] || null;\n  item.json.email = form.map[\"Email\"] || null;\n\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        80
+      ],
+      "id": "d402d68f-c606-435a-8885-a6c950ea3294",
+      "name": "Parse Fillout Responses"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8b21f000-799d-4c6b-b0b6-e18f78bcf964",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "f148865c-dbdd-4465-8c45-f66bdc4ffbf8",
+              "name": "threadId",
+              "value": "={{ $json.threadId }}",
+              "type": "string"
+            },
+            {
+              "id": "9110b778-766a-4d24-baf3-592f0582fa91",
+              "name": "labelIds",
+              "value": "={{ $json.labelIds }}",
+              "type": "array"
+            },
+            {
+              "id": "99ffcbad-24a5-4f8f-869e-d3d93feb2030",
+              "name": "headers.from",
+              "value": "={{ $json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "7c4b53d6-dafd-4580-a49d-4506c71e49a2",
+              "name": "headers.date",
+              "value": "={{ $json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "64dfdc6c-9239-44ad-883f-4ee31bffe0fa",
+              "name": "headers.subject",
+              "value": "={{ $json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "af2043a8-f9d0-4705-b0f0-23b7f1cc170e",
+              "name": "headers[\"message-id\"]",
+              "value": "={{ $json.headers[\"message-id\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "3b196f97-1565-4268-b9a0-f00be161f41d",
+              "name": "formFields",
+              "value": "={{ $json.formFields }}",
+              "type": "array"
+            },
+            {
+              "id": "b7892aa4-c548-4d98-ae39-36455242b1a4",
+              "name": "firstName",
+              "value": "={{ $json.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "bebabf9a-d42a-4a5c-bc75-7b1b6f42d21a",
+              "name": "lastName",
+              "value": "={{ $json.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "ac6d0ffd-946b-49c5-affc-45f243f59293",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        384,
+        80
+      ],
+      "id": "8df25f4d-882e-4d95-8626-99ed44e71bf0",
+      "name": "Set Gmail & Fillout Fields"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const ff = Array.isArray(item.json.formFields) ? item.json.formFields : [];\n\n// Remove the first 9 consent/basic fields\nconst trimmed = ff.slice(9);\n\n// Keep the cleaned list\nitem.json.formFields = trimmed;\n\n// Build JSON string for AI node\nitem.json.qa_json = JSON.stringify(\n  trimmed.map(x => ({\n    q: x.question || \"\",\n    a: x.answer || \"\"\n  }))\n);\n\nreturn item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        80
+      ],
+      "id": "4308f387-db81-45f7-9121-36d80399ed70",
+      "name": "Skip First 9 From Fillout"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        912,
+        304
+      ],
+      "id": "93c3ed7a-8f80-41dd-a8d3-5c9caf21041e",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "REDACTED_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1632,
+        80
+      ],
+      "id": "04734231-5673-4572-951e-e099b5fc8187",
+      "name": "Wait",
+      "webhookId": "ffb45310-a7e2-445e-a7b3-08db1ec6434f"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Validate these Q/A items (JSON array of {q,a}):\n{{$json.qa_json}}",
+        "options": {
+          "systemMessage": "You are a strict validator. Output ONLY valid JSON. No prose, no markdown.\n\nInput is a JSON array of objects { \"q\": string, \"a\": string }.\n\nFor each item:\n- Let s = a trimmed and lowercased.\n- FAIL reason \"banned_word\" if s is exactly one of:\n  yes, no, maybe, i don't know, idk, n/a, na, none, -\n- Else FAIL reason \"too_short\" if a has fewer than 12 characters.\n- Else FAIL reason \"too_few_words\" if a has fewer than 3 words (split on whitespace).\n- Otherwise PASS.\n\nReturn exactly this JSON shape:\n{\n  \"fails\":[{\"question\":string,\"answer\":string,\"reason\":\"banned_word\"|\"too_short\"|\"too_few_words\"}],\n  \"passCount\": number,\n  \"failCount\": number\n}\n\nRules:\n- passCount + failCount must equal the number of input items.\n- If input is empty, return:\n  {\"fails\":[],\"passCount\":0,\"failCount\":0}\n- Use the original question text in \"question\".\n- Use the original answer text in \"answer\".\n- Output ONLY JSON."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        832,
+        80
+      ],
+      "id": "b4bfb07d-0b77-49fa-bd8d-fee0318aecde",
+      "name": "AI Q&A Check"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  let out = item.json.output;\n\n  if (typeof out === 'string') {\n    const s = out.trim();\n\n    try {\n      out = JSON.parse(s);\n    } catch (e) {\n      const m = s.match(/\\{[\\s\\S]*\\}/);\n      if (m) {\n        try {\n          out = JSON.parse(m[0]);\n        } catch (e2) {\n          out = {\n            fails: [{ question: '', answer: '', reason: 'unparseable_output' }],\n            passCount: 0,\n            failCount: 1\n          };\n        }\n      } else {\n        out = {\n          fails: [{ question: '', answer: '', reason: 'unparseable_output' }],\n          passCount: 0,\n          failCount: 1\n        };\n      }\n    }\n  }\n\n  const fails = Array.isArray(out.fails) ? out.fails : [];\n  const failCount = Number.isFinite(out.failCount) ? out.failCount : fails.length;\n  const passCount = Number.isFinite(out.passCount) ? out.passCount : 0;\n\n  item.json.aiCheck = {\n    fails,\n    failCount,\n    passCount\n  };\n\n  item.json.fails = fails;\n  item.json.failCount = failCount;\n  item.json.passCount = passCount;\n\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        80
+      ],
+      "id": "19062aea-f498-4ffe-b5be-c00d006bcd5f",
+      "name": "Normalize AI Output"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ba866f40-9752-4f6d-8bfa-95704f4fe1c7",
+              "leftValue": "={{$json.failCount}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1408,
+        80
+      ],
+      "id": "6eddd3b4-a419-48fc-8c23-2200f9f55379",
+      "name": "If Any Failed Answers"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $node[\"Set Gmail & Fillout Fields\"].json[\"email\"] }}",
+        "subject": "Next Step at FloLabs. Schedule Your Interview with Oliver",
+        "message": "=<div style=\"margin:0;padding:0;background:#f5f7fb;\">\n  <div style=\"max-width:680px;margin:0 auto;padding:32px 20px;font-family:Arial,Helvetica,sans-serif;color:#1f2937;line-height:1.7;\">\n    \n    <div style=\"background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;\">\n      \n      <div style=\"padding:28px 32px;border-bottom:1px solid #e5e7eb;background:#ffffff;\">\n        <h2 style=\"margin:0;font-size:24px;line-height:1.3;color:#111827;\">\n          Congratulations on Reaching the Final Stage\n        </h2>\n      </div>\n\n      <div style=\"padding:32px;\">\n        <p style=\"margin:0 0 18px 0;\">\n          Hi {{ $node[\"Set Gmail & Fillout Fields\"].json[\"firstName\"] || 'there' }},\n        </p>\n\n        <p style=\"margin:0 0 18px 0;\">\n          Congratulations on making it to the final stage of our process at <strong>FloLabs</strong>.\n        </p>\n\n        <p style=\"margin:0 0 18px 0;\">\n          I’m excited to introduce you to <strong>Oliver</strong>, who will be conducting your interview before your final one-on-one meeting with <strong>John</strong>.\n          Oliver is a Team Lead at FloLabs and has gained valuable firsthand experience working across our projects.\n        </p>\n\n        <p style=\"margin:0 0 18px 0;\">\n          During the call, Oliver will share insights about his experience working with us.\n          Please feel free to ask him any questions you may have about the internship, the projects, or what it is like to work at FloLabs.\n        </p>\n\n        <div style=\"background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin:24px 0;\">\n          <p style=\"margin:0 0 10px 0;\"><strong>Important Note:</strong></p>\n          <p style=\"margin:0;\">\n            By attending this interview, you agree to follow up with us afterward, regardless of whether you decide to continue in the process.\n          </p>\n        </div>\n\n        <p style=\"margin:0 0 18px 0;\">\n          To schedule your call, please choose the time that is most convenient for you using the link below:\n        </p>\n\n        <div style=\"background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin:24px 0;text-align:left;\">\n          <a href=\"https://calendly.com/oliver-belliardabreu/new-meeting\"\n             style=\"display:inline-block;background:#111827;color:#ffffff;text-decoration:none;padding:12px 18px;border-radius:10px;font-weight:bold;\">\n            Schedule Your Call with Oliver\n          </a>\n        </div>\n\n        <p style=\"margin:0 0 18px 0;\">\n          If none of the available times work for you, please reply to this email with your availability and keep\n          <a href=\"mailto:Oliver.Abreu@FloLabsRD.com\" style=\"color:#2563eb;text-decoration:none;\">Oliver.Abreu@FloLabsRD.com</a>\n          in CC so he can help coordinate a suitable time.\n        </p>\n\n        <p style=\"margin:0 0 18px 0;\">\n          We look forward to hearing from you and learning more about you in this next step.\n        </p>\n\n        <p style=\"margin:24px 0 0 0;\">\n          Best regards,<br>\n          <strong>Paula</strong><br>\n          FloLabs\n        </p>\n      </div>\n    </div>\n  </div>\n</div>",
+        "options": {
+          "appendAttribution": false,
+          "ccList": "={{ 'john@example.com, oliver@example.com' }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1856,
+        80
+      ],
+      "id": "cbfca48d-0740-4897-bf61-d45dc8e5b4c3",
+      "name": "Reply with (Introduce Oliver)",
+      "webhookId": "ce85acb5-b087-407e-8e07-11db29b80858",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CREDENTIAL_ID",
+          "name": "Gmail Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "782253a7-ae11-4e5d-b3d1-e251a0ee1ac5",
+              "name": "Applicant",
+              "value": "={{ [$('Set Gmail & Fillout Fields').item.json.firstName, $('Set Gmail & Fillout Fields').item.json.lastName].filter(Boolean).join(' ').replace(/\\s+/g, ' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "0925d7b5-c333-4eb6-85bc-beace3e61717",
+              "name": "Comments",
+              "value": "={{ 'filled out the masterclass, has to meet with Oliver' }}",
+              "type": "string"
+            },
+            {
+              "id": "07c2f98a-3b38-4cc3-a946-51dbeed812f0",
+              "name": "Status",
+              "value": "={{ 'Open' }}",
+              "type": "string"
+            },
+            {
+              "id": "ec177a07-71c7-42aa-894b-df78df4275df",
+              "name": "Call follow up",
+              "value": "={{ 'Oliver to call' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2080,
+        80
+      ],
+      "id": "ac9833f7-9f9f-4a8c-b381-971adc1bd185",
+      "name": "Set Sheet Update Fields"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "REDACTED_GOOGLE_SHEET_URL",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "REDACTED_GOOGLE_SHEET_URL"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Comments": "={{ $json.Comments }}",
+            "Status": "={{ $json.Status }}",
+            "Call follow up": "={{ $json[\"Call follow up\"] }}",
+            "Applicant": "={{ $json.Applicant }}"
+          },
+          "matchingColumns": [
+            "Applicant"
+          ],
+          "schema": [
+            {
+              "id": "Applicant",
+              "displayName": "Applicant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Comments",
+              "displayName": "Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Call follow up",
+              "displayName": "Call follow up",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "FU",
+              "displayName": "FU",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Follow up status",
+              "displayName": "Follow up status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last heard of",
+              "displayName": "Last heard of",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2304,
+        80
+      ],
+      "id": "015fe573-f8d0-4ff0-967b-956a9d35daf4",
+      "name": "Update Applicant in Statistics Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REDACTED_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets Credential"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Flo Labs HR Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "IF - Fillout Form Submissions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Fillout Form Submissions": {
+      "main": [
+        [
+          {
+            "node": "Parse Fillout Responses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Fillout Responses": {
+      "main": [
+        [
+          {
+            "node": "Set Gmail & Fillout Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Gmail & Fillout Fields": {
+      "main": [
+        [
+          {
+            "node": "Skip First 9 From Fillout",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Q&A Check",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Reply with (Introduce Oliver)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Q&A Check": {
+      "main": [
+        [
+          {
+            "node": "Normalize AI Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip First 9 From Fillout": {
+      "main": [
+        [
+          {
+            "node": "AI Q&A Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize AI Output": {
+      "main": [
+        [
+          {
+            "node": "If Any Failed Answers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Any Failed Answers": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Reply with (Introduce Oliver)": {
+      "main": [
+        [
+          {
+            "node": "Set Sheet Update Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Sheet Update Fields": {
+      "main": [
+        [
+          {
+            "node": "Update Applicant in Statistics Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3d6fe961-cee3-478c-b226-dcd6c298853a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bd509831a9ca6f0ab00b28aa7f0d085c2e9f3437d75c75938c8c87bcce8bde68"
+  },
+  "id": "HNqPhAwOJ9rTBGme",
+  "tags": []
+}
